@@ -1,0 +1,141 @@
+.Header {
+  background-color: #fff;
+  height: 70px;
+}
+.Header_container {
+  display: flex;
+   
+  
+}
+
+.Header_image {
+  margin-left: 77px;
+  margin-top: 7px;
+  margin-bottom: 8px;
+  margin-right: 630px;
+  width: 200px;
+  height: 57px;
+  display: flex;
+  gap: 10px;
+}
+
+
+
+
+
+.Header_nav {
+  list-style: none;
+  display: flex;
+  margin-top: 7px;
+ 
+}
+
+.Header_link {
+  font-family: "Lato", sans-serif;
+  font-size: 25px;
+  text-decoration: none;
+  color: #000000;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.border_right {
+  border-left: solid 2px #000;
+  height: 25px;
+}
+
+.push_right {
+  margin-right: 27px;
+}
+
+.Header_link_sign {
+  text-transform: uppercase;
+  color: #fff;
+  padding-left: 23px;
+  padding-right: 23px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background: #ee0d09;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+  text-align: center;
+  font-family: "Lato", sans-serif;
+  font-size: 14px;
+}
+
+.Header_item {
+  margin-left: 27px;
+}
+
+.Header_above {
+  display: flex;
+  color: #fff;
+  font-size: medium;
+  font-family: "Lato", sans-serif;
+  /* width: 100%; */
+  background-color: #07194a;
+
+
+}
+
+.Header_above_left {
+  background-color: #ee0d09;
+  padding-top: 14px;
+  padding-left: 37px;
+  padding-bottom: 14px;
+  padding-right: 37px;
+  /* max-width: 100%; */
+}
+
+.Header_above_right {
+  background-color: #07194a;
+  padding-top: 14px;
+  padding-left: 37px;
+  padding-bottom: 14px;
+  padding-right: 37px;
+  display: flex;
+  
+  
+  
+}
+.Header_above_right_week_time {
+  margin-right: 821px;
+}
+
+
+.all {
+  display: none;
+}
+.lower_header{
+  margin-top: 10px;
+  
+}
+
+
+@media screen and (max-width: 767px) {
+  .Header_above_right_week_time {
+    margin-right: 0;
+  }
+  .Header_container,
+  .Header_above {
+    display: contents;
+  }
+  
+  .Header_nav {
+    display: none;
+  }
+  .all {
+    display: block;
+    margin-left: 20px;
+    font-size: 20px;
+  }
+  .Header {
+    background-color: #fff;
+    height: 70px;
+    ;
+  }
+  
+  
+}
