@@ -4,15 +4,15 @@ import speedometer from "../../../assets/images/speedometer.jpg";
 const QualityService = () => {
   return (
     <>
-      <section class="features-section">
-        <div class="auto-container">
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="inner-container">
+      <section className="features-section">
+        <div className="auto-container">
+          <div className="row">
+            <div className="col-lg-6">
+              <div className="inner-container">
                 <h2>
                   Quality Service And <br /> Customer Satisfaction !!
                 </h2>
-                <div class="text">
+                <div className="text">
                   We utilize the most recent symptomatic gear to ensure your
                   vehicle is fixed or adjusted appropriately and in an opportune
                   manner. We are an individual from Professional Auto Service, a
@@ -22,8 +22,8 @@ const QualityService = () => {
                 </div>
               </div>
             </div>
-            <div class="col-lg-6">
-              <div class="image mt-0">
+            <div className="col-lg-6">
+              <div className="image mt-0">
                 <img src={speedometer} alt="" />
               </div>
             </div>

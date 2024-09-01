@@ -5,24 +5,24 @@ import geer from "../../../assets/images/misc/Image20240828203323.jpg";
 const WelcomeHome = () => {
   return (
     <>
-      <section class="about-section">
-        <div class="auto-container">
-          <div class="row">
-            <div class="col-lg-5">
-              <div class="image-box">
+      <section className="about-section">
+        <div className="auto-container">
+          <div className="row">
+            <div className="col-lg-5">
+              <div className="image-box">
                 <img src={geer} alt="" />
                 <img src={oil} alt="" />
-                <div class="year-experience" data-parallax='{"y": 30}'>
+                <div className="year-experience" data-parallax='{"y": 30}'>
                   <strong>24</strong> years <br />
                   Experience{" "}
                 </div>
               </div>
             </div>
-            <div class="col-lg-7 pl-lg-5">
-              <div class="sec-title">
+            <div className="col-lg-7 pl-lg-5">
+              <div className="sec-title">
                 <h5>Welcome to Our workshop</h5>
                 <h2>We have 24 years experience</h2>
-                <div class="text">
+                <div className="text">
                   <p>
                     Bring to the table win-win survival strategies to ensure
                     proactive domination. At the end of the day, going forward,
@@ -39,10 +39,10 @@ const WelcomeHome = () => {
                     on focusing.
                   </p>
                 </div>
-                <div class="link-btn mt-40">
-                  <a href="/about" class="theme-btn btn-style-one style-two">
+                <div className="link-btn mt-40">
+                  <a href="/about" className="theme-btn btn-style-one style-two">
                     <span>
-                      About Us <i class="flaticon-right"></i>
+                      About Us <i className="flaticon-right"></i>
                     </span>
                   </a>
                 </div>

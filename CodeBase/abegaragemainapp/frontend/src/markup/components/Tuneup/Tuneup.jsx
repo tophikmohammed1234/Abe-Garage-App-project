@@ -7,20 +7,20 @@ const Tuneup = () => {
   };
   return (
     <>
-      <section class="video-section">
-        <div data-parallax='{"y": 50}' class="sec-bg" style={styles}></div>
-        <div class="auto-container">
+      <section className="video-section">
+        <div data-parallax='{"y": 50}' className="sec-bg" style={styles}></div>
+        <div className="auto-container">
           <h5>Working since 1992</h5>
           <h2>
             Tuneup Your Car <br /> to Next Level
           </h2>
-          <div class="video-box">
-            <div class="video-btn">
+          <div className="video-box">
+            <div className="video-btn">
               <a href="#feature">
-                <i class="flaticon-play"></i>
+                <i className="flaticon-play"></i>
               </a>
             </div>
-            <div class="text">
+            <div className="text">
               Descover The <br /> Core Features
             </div>
           </div>
