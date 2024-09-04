@@ -21,8 +21,8 @@ textarea::placeholder {
   box-shadow: rgba(9, 30, 66, 0.25) 0px 2px 5px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 }
 
-.navigation :hover{
-  color:#E60D09;
+.navigation :hover {
+  color: #E60D09;
   text-decoration: underline 2px;
 }
 
@@ -364,4 +364,10 @@ input:disabled {
 .contact-item p {
   margin-left: 28px;
   font-size: 16px;
+}
+
+/* footer list */
+.list li:hover {
+  color: #E60D09;
+  text-decoration: underline 0.1px;
 }
