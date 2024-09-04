@@ -8,8 +8,8 @@ const sanitize = require("sanitize");
 const cors = require("cors");
 // Set up the CORS options to allow requests from our front-end
 const corsOptions = {
-  origin: process.env.FRONTEND_URL,
-  optionsSuccessStatus: 200,
+	origin: process.env.FRONTEND_URL,
+	optionsSuccessStatus: 200,
 };
 // Create a variable to hold our port number
 const port = process.env.PORT;
@@ -27,7 +27,7 @@ app.use(sanitize.middleware);
 app.use(router);
 // Start the webserver
 app.listen(port, () => {
-  console.log(`Server running on port: ${port}`);
+	console.log(`Server running on port: ${port}`);
 });
 // Export the webserver for use in the application
 module.exports = app;
