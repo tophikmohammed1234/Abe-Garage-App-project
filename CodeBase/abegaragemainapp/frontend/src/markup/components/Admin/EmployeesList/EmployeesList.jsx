@@ -1,118 +1,198 @@
-// Import the necessary components
 import React, { useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
-// Import the auth hook
+import { Table, Button, Spinner, Alert } from "react-bootstrap";
 import { useAuth } from "../../../../Context/AuthContext";
-// Import the date-fns library
-import { format } from "date-fns"; // To properly format the date on the table
-// Import the getAllEmployees function
+import { useNavigate } from "react-router-dom"; // Import the updated hook
+import { format } from "date-fns";
 import employeeService from "../../../../services/employee.service";
+import EmployeeUpdate from "../UpdateEmployeeForm/EmployeeUpdate";
 
 // Create the EmployeesList component
 const EmployeesList = () => {
-	// Create all the states we need to store the data
-	// Create the employees state to store the employees data
-	const [employees, setEmployees] = useState([]);
-	// A state to serve as a flag to show the error message
-	const [apiError, setApiError] = useState(false);
-	// A state to store the error message
-	const [apiErrorMessage, setApiErrorMessage] = useState(null);
-	// To get the logged-in employee token
-	const { employee } = useAuth();
-	let token = null; // To store the token
-	if (employee) {
-		token = employee.employee_token;
-	}
+  // States
+  const [employees, setEmployees] = useState([]);
+  const [apiError, setApiError] = useState(false);
+  const [apiErrorMessage, setApiErrorMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [show, setShow] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
 
-	useEffect(() => {
-		// Call the getAllEmployees function
-		const allEmployees = employeeService.getAllEmployees(token);
-		allEmployees
-			.then((res) => {
-				if (!res.ok) {
-					setApiError(true);
-					if (res.status === 401) {
-						setApiErrorMessage("Please login again");
-					} else if (res.status === 403) {
-						setApiErrorMessage("You are not authorized to view this page");
-					} else {
-						setApiErrorMessage("Please try again later");
-					}
-				}
-				return res.json();
-			})
-			.then((data) => {
-				if (data.data.length !== 0) {
-					setEmployees(data.data);
-				}
-			})
-			.catch((err) => {
-				setApiError(true);
-				setApiErrorMessage(
-					"An unexpected error occurred. Please try again later."
-				);
-				console.error(err);
-			});
-	}, []);
+  const { employee } = useAuth();
+  const token = employee ? employee.employee_token : null;
 
-	return (
-		<>
-			{apiError ? (
-				<section className="contact-section">
-					<div className="auto-container">
-						<div className="contact-title">
-							<h2>{apiErrorMessage}</h2>
-						</div>
-					</div>
-				</section>
-			) : (
-				<>
-					<section className="contact-section">
-						<div className="auto-container">
-							<div className="contact-title">
-								<h2>Employees</h2>
-							</div>
-							<Table striped bordered hover>
-								<thead>
-									<tr>
-										<th>Active</th>
-										<th>First Name</th>
-										<th>Last Name</th>
-										<th>Email</th>
-										<th>Phone</th>
-										<th>Added Date</th>
-										<th>Role</th>
-										<th>Edit/Delete</th>
-									</tr>
-								</thead>
-								<tbody>
-									{employees.map((employee, index) => (
-										<tr key={`${employee.employee_id}-${index}`}>
-											<td>{employee.active_employee ? "Yes" : "No"}</td>
-											<td>{employee.employee_first_name}</td>
-											<td>{employee.employee_last_name}</td>
-											<td>{employee.employee_email}</td>
-											<td>{employee.employee_phone}</td>
-											<td>
-												{format(
-													new Date(employee.added_date),
-													"MM - dd - yyyy | kk:mm"
-												)}
-											</td>
-											<td>{employee.company_role_name}</td>
-											<td>
-												<div className="edit-delete-icons">edit | delete</div>
-											</td>
-										</tr>
-									))}
-								</tbody>
-							</Table>
-						</div>
-					</section>
-				</>
-			)}
-		</>
-	);
+  // const navigate = useNavigate(); // Use the updated hook
+// console.log(employees)
+  const handleClose = () => {
+    setShow(false);
+    setSelectedEmployee(null);
+    // navigate("/employees"); // Reset the URL when the modal is closed
+  };
+
+  const handleShow = (emp) => {
+    setShow(true);
+    setSelectedEmployee(emp);
+    // navigate(`/employees/${emp.employee_id}`); // Update the URL when the modal is shown
+  };
+
+  useEffect(() => {
+    if (!token) {
+      setApiError(true);
+      setApiErrorMessage("User is not authenticated.");
+      setIsLoading(false);
+      return;
+    }
+
+    // Fetch all employees
+    employeeService
+      .getAllEmployees(token)
+      .then((res) => {
+        if (!res.ok) {
+          setApiError(true);
+          if (res.status === 401) {
+            setApiErrorMessage("Please login again.");
+          } else if (res.status === 403) {
+            setApiErrorMessage("You are not authorized to view this page.");
+          } else {
+            setApiErrorMessage("Please try again later.");
+          }
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.data && data.data.length !== 0) {
+          setEmployees(data.data);
+        } else {
+          setApiError(true);
+          setApiErrorMessage("No employees found.");
+        }
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        if (!apiError) {
+          setApiError(true);
+          setApiErrorMessage(
+            "An unexpected error occurred. Please try again later."
+          );
+        }
+        setIsLoading(false);
+        console.error(err);
+      });
+  }, [token, apiError]);
+
+  const handleDelete = (employeeId) => {
+    if (window.confirm("Are you sure you want to delete this employee?")) {
+      employeeService
+        .deleteEmployee(token, employeeId)
+        .then((res) => {
+          if (res.ok) {
+            setEmployees(
+              employees.filter((emp) => emp.employee_id !== employeeId)
+            );
+          } else {
+            setApiError(true);
+            setApiErrorMessage("Failed to delete the employee.");
+          }
+        })
+        .catch((err) => {
+          setApiError(true);
+          setApiErrorMessage("An unexpected error occurred.");
+          console.error(err);
+        });
+    }
+  };
+
+
+
+  return (
+    <>
+      {isLoading ? (
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ height: "50vh" }}
+        >
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      ) : apiError ? (
+        <section className="contact-section">
+          <div className="auto-container">
+            <Alert variant="danger">
+              <h2>{apiErrorMessage}</h2>
+            </Alert>
+          </div>
+        </section>
+      ) : (
+        <>
+          <section className="contact-section">
+            <div className="auto-container">
+              <div className="contact-title mb-4">
+                <h2>Employees</h2>
+              </div>
+              <Table striped bordered hover responsive>
+                <thead>
+                  <tr>
+                    <th>Active</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Added Date</th>
+                    <th>Role</th>
+                    <th>Edit/Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {employees.map((emp) => (
+                    <tr key={emp.employee_id}>
+                      <td>{emp.active_employee ? "Yes" : "No"}</td>
+                      <td>{emp.employee_first_name}</td>
+                      <td>{emp.employee_last_name}</td>
+                      <td>{emp.employee_email}</td>
+                      <td>{emp.employee_phone}</td>
+                      <td>
+                        {format(new Date(emp.added_date), "MM-dd-yyyy | HH:mm")}
+                      </td>
+                      <td>{emp.company_role_name}</td>
+                      <td>
+                        <div className="d-flex gap-2">
+                          <Button
+                            variant="warning"
+                            size="sm"
+                            onClick={() => handleShow(emp)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => handleDelete(emp.employee_id)}
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          </section>
+
+          {/* Edit Employee Modal */}
+          {/* pass also token */}
+          {selectedEmployee && (
+            <EmployeeUpdate
+              show={show}
+              loggedInEmployeeToken={token}
+              handleClose={handleClose}
+              selectedEmployee={selectedEmployee}
+            />
+          )}
+        </>
+      )}
+    </>
+  );
 };
 
 // Export the EmployeesList component

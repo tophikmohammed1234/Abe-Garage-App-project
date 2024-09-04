@@ -16,6 +16,20 @@ const createEmployee = async (formData, loggedInEmployeeToken) => {
   return response;
 };
 
+const updateEmployee = async (formData, loggedInEmployeeToken) => {
+  const requestOptions = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": loggedInEmployeeToken,
+    },
+    body: JSON.stringify(formData),
+  };
+  console.log(requestOptions);
+  const response = await fetch(`${api_url}/api/employee`, requestOptions);
+  return response;
+};
+
 // A function to send get request to get all employees
 const getAllEmployees = async (token) => {
   // console.log(token);
@@ -34,5 +48,6 @@ const getAllEmployees = async (token) => {
 const employeeService = {
   createEmployee,
   getAllEmployees,
+  updateEmployee,
 };
 export default employeeService;

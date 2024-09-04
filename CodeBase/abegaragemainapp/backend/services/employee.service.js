@@ -69,17 +69,38 @@ async function getEmployeeByEmail(employee_email) {
 	const rows = await conn.query(query, [employee_email]);
 	return rows;
 }
-// A function to get all employees
-async function getAllEmployees() {
+// A function to get employee by id
+async function getEmployeeById(employee_id) {
 	const query =
-		"SELECT * FROM employee INNER JOIN employee_info ON employee.employee_id = employee_info.employee_id INNER JOIN employee_role ON employee.employee_id = employee_role.employee_id INNER JOIN company_roles ON employee_role.company_role_id = company_roles.company_role_id ORDER BY employee.employee_id DESC limit 10";
-	const rows = await conn.query(query);
+		"SELECT * FROM employee INNER JOIN employee_info ON employee.employee_id = employee_info.employee_id INNER JOIN employee_pass ON employee.employee_id = employee_pass.employee_id INNER JOIN employee_role ON employee.employee_id = employee_role.employee_id WHERE employee.employee_id = ?";
+	const rows = await conn.query(query, [employee_id]);
 	return rows;
 }
-// Export the functions for use in the controller
-module.exports = {
-	checkIfEmployeeExists,
-	createEmployee,
-	getEmployeeByEmail,
-	getAllEmployees,
-};
+// A function to get a password by email
+async function getEmployeePassword(employee_id) {
+
+  const query =
+				// sellect also password hashed where employee_id
+    "SELECT * FROM employee_pass WHERE employee_id = ?";
+  const rows = await conn.query(query, [employee_id]);
+  return rows;
+}
+// A function to get all employees
+async function getAllEmployees() {
+  const query =
+    // sellect also password hashed
+    "SELECT * FROM employee INNER JOIN employee_info ON employee.employee_id = employee_info.employee_id INNER JOIN employee_pass ON employee.employee_id = employee_pass.employee_id INNER JOIN employee_role ON employee.employee_id = employee_role.employee_id INNER JOIN company_roles ON employee_role.company_role_id = company_roles.company_role_id ORDER BY employee.employee_id DESC limit 10";
+				const rows = await conn.query(query);
+				return rows;
+			}
+			// Export the functions for use in the controller
+			module.exports = {
+        checkIfEmployeeExists,
+        createEmployee,
+        getEmployeeByEmail,
+        getAllEmployees,
+        getEmployeePassword,
+								getEmployeeById
+      };
+			
+			// employee_info.employee_id INNER JOIN employee_pass ON employee.employee_id =
