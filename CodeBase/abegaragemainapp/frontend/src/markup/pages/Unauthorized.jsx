@@ -17,7 +17,7 @@ function Unauthorized() {
           textAlign: "center",
         }}
       >
-        You don't have the authorization to access the page you requested
+        You don't have the authorization to access the page you requested.
       </h1>
     </div>
   );
