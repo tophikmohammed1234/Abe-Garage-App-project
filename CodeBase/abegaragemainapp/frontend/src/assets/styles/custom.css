@@ -16,6 +16,10 @@ input::placeholder, textarea::placeholder {
 .main-header {
   box-shadow: rgba(9, 30, 66, 0.25) 0px 2px 5px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 }
+.navigation :hover{
+  color:#E60D09;
+  text-decoration: underline 2px;
+}
 /* Admin pages */
 .admin-left-side {
   background-color:#222b48;
