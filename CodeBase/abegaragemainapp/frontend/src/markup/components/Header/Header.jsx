@@ -11,7 +11,6 @@ import { useAuth } from "../../../Context/AuthContext";
 function Header(props) {
   // Use the custom hook to access the data in the context
   const { isLogged, setIsLogged, employee } = useAuth();
-  // console.log(useAuth());
 
   // Log out event handler function
   const logOut = () => {
@@ -36,15 +35,13 @@ function Header(props) {
               <div className="right-column">
                 {isLogged ? (
                   <div className="link-btn">
-                    <div className="phone-number px-5">
-                      <strong className="px-5">
-                        Welcome {employee?.employee_first_name}
-                      </strong>
+                    <div className="phone-number">
+                      <strong className="px-3">Welcome {employee?.employee_first_name}</strong>
                     </div>
                   </div>
                 ) : (
-                  <div className="phone-number">
-                    Schedule Appointment: <strong>1800 456 7890 </strong>{" "}
+                  <div className="phone-number px-3">
+                    Schedule Appointment: <strong>1800 456 7890 </strong>
                   </div>
                 )}
               </div>
@@ -73,17 +70,23 @@ function Header(props) {
                     >
                       <ul className="navigation">
                         <li className="dropdown">
-                          <a href="/">Home</a>
+                          <Link to="/">Home</Link>
                         </li>
                         <li className="dropdown">
-                          <a href="/about">About Us</a>
+                          <Link to="/about">About Us</Link>
                         </li>
                         <li className="dropdown">
-                          <a href="/services">Services</a>
+                          <Link to="/services">Services</Link>
                         </li>
                         <li>
-                          <a href="/contact">Contact Us</a>
+                          <Link to="/contact">Contact Us</Link>
                         </li>
+                        {isLogged &&
+                          employee?.employee_role === 3 && ( // Check if user is logged in and is an admin
+                            <li>
+                              <Link to="/admin/employees">Admin</Link>
+                            </li>
+                          )}
                       </ul>
                     </div>
                   </nav>
@@ -126,14 +129,13 @@ function Header(props) {
                     <div className="mobile-nav-toggler">
                       <img src="assets/images/icons/icon-bar.png" alt="" />
                     </div>
-
                     <nav className="main-menu navbar-expand-md navbar-light"></nav>
                   </div>
                   <div className="search-btn"></div>
                   <div className="link-btn">
-                    <a href="/login" className="theme-btn btn-style-one">
+                    <Link to="/login" className="theme-btn btn-style-one">
                       Login
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -145,7 +147,6 @@ function Header(props) {
           <div className="close-btn">
             <span className="icon flaticon-remove"></span>
           </div>
-
           <nav className="menu-box">
             <div className="nav-logo">
               <a href="index.html">
@@ -155,7 +156,6 @@ function Header(props) {
             <div className="menu-outer"></div>
           </nav>
         </div>
-
         <div className="nav-overlay">
           <div className="cursor"></div>
           <div className="cursor-follower"></div>
