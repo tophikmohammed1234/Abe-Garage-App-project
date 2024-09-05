@@ -1,5 +1,4 @@
 const updateService = require("../services/update.service");
-// const employeeService = require("../services/employee.service");
 
 async function updateEmployee(req, res, next) {
   try {
@@ -9,17 +8,8 @@ async function updateEmployee(req, res, next) {
       return res.status(400).json({ error: "Original email is required" });
     }
 
-    // Check if the employee exists
-    // const employeeExists = await employeeService.checkIfEmployeeExists_or(
-    //   req.body.employee_id
-    // );
-    // if (!employeeExists) {
-    //   return res.status(404).json({ error: "Employee not found" });
-    // }
-
     // Update the employee
     const employeeData = req.body;
-    // console.log(employeeData);
     const updatedEmployee = await updateService.updateEmployee(employeeData);
 
     if (!updatedEmployee.employee_id) {

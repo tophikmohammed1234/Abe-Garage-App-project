@@ -32,47 +32,49 @@ import Footer from "./markup/components/Footer/Footer";
 
 // Import the PrivateAuthRoute component
 import PrivateAuthRoute from "./markup/components/Auth/PrivateAuthRoute";
+import DeleteEmployee from "./markup/components/Admin/Delete/DeleteEmployee";
 
 function App() {
-	return (
-		<>
-			<Header />
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/unauthorized" element={<Unauthorized />} />
-				<Route path="/about" element={<About />} />
-				<Route path="/contact" element={<Contact />} />
-				<Route path="/Services" element={<Services />} />
-				{/* // Add the Orders Route  */}
-				<Route
-					path="/admin/orders"
-					element={
-						<PrivateAuthRoute roles={[1, 2, 3]}>
-							<Orders />
-						</PrivateAuthRoute>
-					}
-				/>
-				{/* // Add the Customers Route  */}
-				<Route
-					path="/admin/customers"
-					element={
-						<PrivateAuthRoute roles={[2, 3]}>
-							<Customers />
-						</PrivateAuthRoute>
-					}
-				/>
-				{/* // Add the Employees Route  */}
-				<Route path="/admin/employees" element={<Employees />} />
-				<Route
-					path="/admin/add-employee"
-					element={
-						<PrivateAuthRoute roles={[3]}>
-							<AddEmployee />
-						</PrivateAuthRoute>
-					}
-				/>
-				{/* 
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/Services" element={<Services />} />
+        {/* // Add the Orders Route  */}
+        <Route
+          path="/admin/orders"
+          element={
+            <PrivateAuthRoute roles={[1, 2, 3]}>
+              <Orders />
+            </PrivateAuthRoute>
+          }
+        />
+        {/* // Add the Customers Route  */}
+        <Route
+          path="/admin/customers"
+          element={
+            <PrivateAuthRoute roles={[2, 3]}>
+              <Customers />
+            </PrivateAuthRoute>
+          }
+        />
+        {/* // Add the Employees Route  */}
+        <Route path="/admin/employees" element={<Employees />} />
+        <Route path="/admin/employee/:id" element={<DeleteEmployee />} />
+        <Route
+          path="/admin/add-employee"
+          element={
+            <PrivateAuthRoute roles={[3]}>
+              <AddEmployee />
+            </PrivateAuthRoute>
+          }
+        />
+        {/* 
         Customers (/admin/customers) - managers and admins
         Orders (/admin/orders) - Can be accessed by all employees
         Add employee (/admin/add-employee) - admins only 
@@ -80,10 +82,10 @@ function App() {
             - Manager: 2 
             - Employee: 1 
         */}
-			</Routes>
-			<Footer />
-		</>
-	);
+      </Routes>
+      <Footer />
+    </>
+  );
 }
 
 export default App;
