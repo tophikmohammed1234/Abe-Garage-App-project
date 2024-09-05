@@ -22,9 +22,7 @@ const AboutHeader = () => {
 								Home
 							</Link>
 							<FaAngleRight />
-							<Link to="/about" className="white_aboutUs">
-								About Us
-							</Link>
+							<Link className="white_aboutUs">About Us</Link>
 						</div>
 					</div>
 				</div>

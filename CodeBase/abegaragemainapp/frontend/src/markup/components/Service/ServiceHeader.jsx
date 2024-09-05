@@ -15,16 +15,14 @@ const ServiceHeader = () => {
 			<section className="video-section">
 				<div data-parallax='{"y": 50}' className="sec-bg" style={styles}></div>
 				<div className="auto-container">
-					<h2>About Us</h2>
+					<h2>Service</h2>
 					<div className="video-box">
 						<div className="text">
 							<Link to="/" className="white_home">
 								Home
 							</Link>
 							<FaAngleRight />
-							<Link to="/about" className="white_aboutUs">
-								About Us
-							</Link>
+							<Link className="white_aboutUs">Service</Link>
 						</div>
 					</div>
 				</div>

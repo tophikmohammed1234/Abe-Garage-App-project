@@ -22,9 +22,7 @@ const ContactHeader = () => {
 								Home
 							</Link>
 							<FaAngleRight />
-							<Link to="/about" className="white_aboutUs">
-								About Us
-							</Link>
+							<Link className="white_aboutUs">Contact Us</Link>
 						</div>
 					</div>
 				</div>

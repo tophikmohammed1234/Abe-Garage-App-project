@@ -3,11 +3,11 @@ body {
   font-family: Arial, sans-serif;
 }
 
-h1,
+/* h1,
 h2 {
   text-align: center;
   color: #333;
-}
+} */
 
 .employee-info,
 .deleted-info {
@@ -87,16 +87,11 @@ h2 {
   background-color: #999;
 }
 
-/* General styles */
-body {
-  font-family: Arial, sans-serif;
-}
-
-h1,
+/* h1,
 h2 {
   text-align: center;
   color: #333;
-}
+} */
 
 .employee-info,
 .deleted-info {
@@ -105,7 +100,8 @@ h2 {
   width: 60%;
   border: 1px solid #ccc;
   border-radius: 8px;
-  background-color: #f1f1f1; /* Change background color */
+  background-color: #f1f1f1;
+  /* Change background color */
 }
 
 table {
