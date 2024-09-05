@@ -48,8 +48,6 @@ async function updateEmployee(employee) {
 
     updatedFields.company_role_id = employee.company_role_id;
 
-    // console.log(employee.employee_password);
-    // console.log(original_employee_data[0].employee_password_hashed);
     // Handle password update
     if (
       employee.employee_password &&

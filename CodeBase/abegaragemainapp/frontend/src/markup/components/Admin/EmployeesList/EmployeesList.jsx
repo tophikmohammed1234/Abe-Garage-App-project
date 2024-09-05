@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Spinner, Alert } from "react-bootstrap";
 import { useAuth } from "../../../../Context/AuthContext";
-import { useNavigate } from "react-router-dom"; // Import the updated hook
+import { Link, useNavigate } from "react-router-dom"; // Import the updated hook
 import { format } from "date-fns";
 import employeeService from "../../../../services/employee.service";
 import EmployeeUpdate from "../UpdateEmployeeForm/EmployeeUpdate";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { FaRegEdit } from "react-icons/fa";
 
 // Create the EmployeesList component
 const EmployeesList = () => {
@@ -20,7 +22,7 @@ const EmployeesList = () => {
   const token = employee ? employee.employee_token : null;
 
   // const navigate = useNavigate(); // Use the updated hook
-// console.log(employees)
+  // console.log(employees)
   const handleClose = () => {
     setShow(false);
     setSelectedEmployee(null);
@@ -79,30 +81,6 @@ const EmployeesList = () => {
       });
   }, [token, apiError]);
 
-  const handleDelete = (employeeId) => {
-    if (window.confirm("Are you sure you want to delete this employee?")) {
-      employeeService
-        .deleteEmployee(token, employeeId)
-        .then((res) => {
-          if (res.ok) {
-            setEmployees(
-              employees.filter((emp) => emp.employee_id !== employeeId)
-            );
-          } else {
-            setApiError(true);
-            setApiErrorMessage("Failed to delete the employee.");
-          }
-        })
-        .catch((err) => {
-          setApiError(true);
-          setApiErrorMessage("An unexpected error occurred.");
-          console.error(err);
-        });
-    }
-  };
-
-
-
   return (
     <>
       {isLoading ? (
@@ -157,19 +135,18 @@ const EmployeesList = () => {
                       <td>
                         <div className="d-flex gap-2">
                           <Button
-                            variant="warning"
                             size="sm"
                             onClick={() => handleShow(emp)}
+                            style={{
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
                           >
-                            Edit
+                            <FaRegEdit size={20} color="black" />
                           </Button>
-                          <Button
-                            variant="danger"
-                            size="sm"
-                            onClick={() => handleDelete(emp.employee_id)}
-                          >
-                            Delete
-                          </Button>
+                          <Link to={`/admin/employee/${emp.employee_id}`}>
+                            <DeleteIcon />
+                          </Link>
                         </div>
                       </td>
                     </tr>

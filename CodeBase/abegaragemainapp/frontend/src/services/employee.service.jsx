@@ -11,7 +11,6 @@ const createEmployee = async (formData, loggedInEmployeeToken) => {
     },
     body: JSON.stringify(formData),
   };
-  console.log(requestOptions);
   const response = await fetch(`${api_url}/api/employee`, requestOptions);
   return response;
 };
@@ -44,10 +43,40 @@ const getAllEmployees = async (token) => {
   return response;
 };
 
+const getEmployeeById = async (token, id) => {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": token,
+    },
+  };
+  const response = await fetch(`${api_url}/api/employee/${id}`, requestOptions);
+  return response.json(); // Return the JSON response
+};
+
+const deleteEmployee = async (token, id) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": token,
+    },
+  };
+  console.log(requestOptions);
+  const response = await fetch(`${api_url}/api/employee/${id}`, requestOptions);
+
+  // Parse the JSON response to get the full employee info
+  const data = await response.json();
+  return data;
+};
+
 // Export all the functions
 const employeeService = {
   createEmployee,
   getAllEmployees,
   updateEmployee,
+  deleteEmployee,
+  getEmployeeById,
 };
 export default employeeService;
