@@ -84,7 +84,8 @@ function Header(props) {
 													<Link to="/contact">Contact Us</Link>
 												</li>
 												{isLogged &&
-													employee?.employee_role === (2 || 3) && ( // Check if user is logged in and is an admin
+													(employee?.employee_role === 2 ||
+														employee?.employee_role === 3) && (
 														<li>
 															<Link to="/admin/dashboard">Admin</Link>
 														</li>

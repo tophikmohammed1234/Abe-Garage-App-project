@@ -1,6 +1,6 @@
 const db = require("../config/db.config");
 
-exports.addCustomer = async (customerData) => {
+async function addCustomer(customerData) {
 	const insertCustomerIdentifierQuery = `
         INSERT INTO customer_identifier 
         (customer_email, customer_phone_number, customer_hash, customer_added_date) 
@@ -51,4 +51,6 @@ exports.addCustomer = async (customerData) => {
 	} finally {
 		await connection.release();
 	}
-};
+}
+
+module.exports = { addCustomer };

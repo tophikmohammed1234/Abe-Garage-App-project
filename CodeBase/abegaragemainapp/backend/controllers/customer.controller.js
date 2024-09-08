@@ -1,6 +1,6 @@
 const customerService = require("../services/customer.service");
 
-exports.addCustomer = async (req, res) => {
+async function addCustomer(req, res) {
 	try {
 		const {
 			customer_first_name,
@@ -40,4 +40,6 @@ exports.addCustomer = async (req, res) => {
 			message: "An unexpected error occurred.",
 		});
 	}
-};
+}
+
+module.exports = { addCustomer };
