@@ -30,8 +30,23 @@ function Employees() {
 			);
 		} else {
 			return (
-				<div>
-					<h1>You are not authorized to access this page</h1>
+				<div
+					style={{
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						height: "50vh",
+						backgroundColor: "#ccc",
+					}}
+				>
+					<h1
+						style={{
+							color: "darkred",
+							textAlign: "center",
+						}}
+					>
+						Sorry, You are not authorized to access this page
+					</h1>
 				</div>
 			);
 		}

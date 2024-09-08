@@ -11,15 +11,14 @@ function Unauthorized() {
 				backgroundColor: "#ccc",
 			}}
 		>
-			<h1
+			<h2
 				style={{
 					color: "darkred",
-					fontSize: "30px",
 					textAlign: "center",
 				}}
 			>
 				Sorry, You don't have the authorization to access the page you requested
-			</h1>
+			</h2>
 		</div>
 	);
 }
