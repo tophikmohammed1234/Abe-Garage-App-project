@@ -13,5 +13,11 @@ router.post(
   [authMiddleware.verifyToken],
   serviceController.addService
 );
+// Create a route to handle the get all service
+router.get(
+  "/api/services",
+  [authMiddleware.verifyToken, authMiddleware.isAdmin],
+  serviceController.getAllServices
+);
 
 module.exports = router;

@@ -28,5 +28,14 @@ async function createService(service_name, service_description) {
     throw new Error("Failed to create service");
   }
 }
+// A function to get all services
+async function getAllServices() {
+  const sql = `
+    SELECT service_id, service_name, service_description
+    FROM common_services;
+  `;
+  const rows = await query(sql);
+  return rows;
+}
 
-module.exports = { createService };
+module.exports = { createService, getAllServices };
