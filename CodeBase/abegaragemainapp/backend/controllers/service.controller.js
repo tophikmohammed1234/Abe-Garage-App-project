@@ -41,6 +41,22 @@ async function addService(req, res, next) {
   }
 }
 
+// Create the getAllServices controller
+async function getAllServices(req, res, next) {
+  // Call the getAlLServices method from the service service
+  const services = await serviceService.getAllServices();
+  if (!services) {
+    res.status(400).json({
+      error: "Failed to get all employees!",
+    });
+  } else {
+    res.status(200).json({
+      status: "success",
+      data: services,
+    });
+  }
+}
 module.exports = {
   addService,
+  getAllServices,
 };
