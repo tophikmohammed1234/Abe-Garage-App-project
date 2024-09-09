@@ -6,6 +6,8 @@ const router = express.Router();
 const employeeController = require("../controllers/employee.controller");
 // Import middleware
 const authMiddleware = require("../middlewares/auth.middleware");
+// Import the update controller
+// const updateController = require("../controllers/employee.controller");
 // Create a route to handle the add employee request on post
 router.post(
   "/api/employee",
@@ -22,5 +24,7 @@ router.get(
 router.get("/api/employee/:id", employeeController.getEmployeeById);
 router.delete("/api/employee/:id", employeeController.deleteEmployee);
 
+// Create a route to handle the update employee request on put
+router.put("/api/employee/", employeeController.updateEmployee);
 // Export the router
 module.exports = router;

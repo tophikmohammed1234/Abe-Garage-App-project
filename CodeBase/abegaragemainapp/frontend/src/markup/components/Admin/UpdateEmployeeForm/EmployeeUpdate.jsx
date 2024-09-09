@@ -9,104 +9,80 @@ const EmployeeUpdate = ({
   selectedEmployee,
   loggedInEmployeeToken,
 }) => {
-  const [employee_email, setEmail] = useState(selectedEmployee.employee_email);
-  const [employee_first_name, setFirstName] = useState(
-    selectedEmployee.employee_first_name
-  );
-  const [employee_last_name, setLastName] = useState(
-    selectedEmployee.employee_last_name
-  );
-  const [employee_phone, setPhoneNumber] = useState(
-    selectedEmployee.employee_phone
-  );
-  const [employee_password, setPassword] = useState("");
-  const [active_employee, setActive_employee] = useState(
-    selectedEmployee.active_employee
-  );
-  const [company_role_id, setCompany_role_id] = useState(
-    selectedEmployee.company_role_id
-  );
-  const [employee_id] = useState(selectedEmployee.employee_id);
+  // Consolidated form state
+  const [formData, setFormData] = useState({
+    employee_email: selectedEmployee.employee_email,
+    employee_first_name: selectedEmployee.employee_first_name,
+    employee_last_name: selectedEmployee.employee_last_name,
+    employee_phone: selectedEmployee.employee_phone,
+    employee_password: "",
+    active_employee: selectedEmployee.active_employee,
+    company_role_id: selectedEmployee.company_role_id,
+    employee_id: selectedEmployee.employee_id,
+  });
 
-  const [emailError, setEmailError] = useState("");
-  const [firstNameRequired, setFirstNameRequired] = useState("");
-  const [lastNameRequired, setLastNameRequired] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [roleError, setRoleError] = useState("");
+  // State for managing errors
+  const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
   const [success, setSuccess] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Input change handler
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  // Validate inputs
+  const validate = () => {
+    let newErrors = {};
+    const emailRegex = /^\S+@\S+\.\S+$/;
+
+    if (!formData.employee_first_name)
+      newErrors.employee_first_name = "First name is required";
+    if (!formData.employee_last_name)
+      newErrors.employee_last_name = "Last name is required";
+    if (!formData.employee_phone)
+      newErrors.employee_phone = "Phone number is required";
+    if (!formData.company_role_id)
+      newErrors.company_role_id = "Role is required";
+    if (!formData.employee_email || !emailRegex.test(formData.employee_email)) {
+      newErrors.employee_email = "Invalid email format";
+    }
+    if (
+      !isChecked &&
+      (!formData.employee_password || formData.employee_password.length < 6)
+    ) {
+      newErrors.employee_password =
+        "Password must be at least 6 characters long";
+    }
+
+    return newErrors;
+  };
+
   const handleSaveChanges = (e) => {
     e.preventDefault();
 
-    let valid = true;
-    // Validate fields
-    if (!employee_first_name) {
-      setFirstNameRequired("First name is required");
-      valid = false;
-    } else {
-      setFirstNameRequired("");
-    }
-
-    if (!employee_last_name) {
-      setLastNameRequired("Last name is required");
-      valid = false;
-    } else {
-      setLastNameRequired("");
-    }
-
-    if (!employee_phone) {
-      setPhoneError("Phone number is required");
-      valid = false;
-    } else {
-      setPhoneError("");
-    }
-
-    if (!company_role_id) {
-      setRoleError("Role is required");
-      valid = false;
-    } else {
-      setRoleError("");
-    }
-
-    const emailRegex = /^\S+@\S+\.\S+$/;
-    if (!employee_email || !emailRegex.test(employee_email)) {
-      setEmailError("Invalid email format");
-      valid = false;
-    } else {
-      setEmailError("");
-    }
-
-    if (!isChecked && (!employee_password || employee_password.length < 6)) {
-      setPasswordError("Password must be at least 6 characters long");
-      valid = false;
-    } else {
-      setPasswordError("");
-    }
-    
-    
-    if (!valid) {
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
+
     setIsLoading(true);
-    const formData = {
-      employee_email,
-      employee_first_name,
-      employee_last_name,
-      employee_phone,
+    const payload = {
+      ...formData,
       employee_password: isChecked
         ? selectedEmployee.employee_password_hashed
-        : employee_password,
-      active_employee,
-      company_role_id,
-      employee_id,
+        : formData.employee_password,
     };
 
     employeeService
-      .updateEmployee(formData, loggedInEmployeeToken)
+      .updateEmployee(payload, loggedInEmployeeToken)
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
@@ -123,7 +99,8 @@ const EmployeeUpdate = ({
         const resMessage =
           error.response?.data?.message || error.message || error.toString();
         setServerError(resMessage);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -134,92 +111,85 @@ const EmployeeUpdate = ({
       <Modal.Body>
         {selectedEmployee && (
           <Form>
-            <Form.Group
-              className="mb-3 d-flex justify-content-between"
-              controlId="formFirstName"
-            >
+            <Form.Group className="mb-3 d-flex justify-content-between">
               <Form.Label>First Name</Form.Label>
               <Form.Control
                 type="text"
-                value={employee_first_name}
-                onChange={(e) => setFirstName(e.target.value)}
+                name="employee_first_name"
+                value={formData.employee_first_name}
+                onChange={handleInputChange}
                 style={{
                   width: "70%",
-                  ...(firstNameRequired ? { border: "1px solid red" } : {}),
+                  border: errors.employee_first_name ? "1px solid red" : "",
                 }}
               />
+              
             </Form.Group>
 
-            <Form.Group
-              className="mb-3 d-flex justify-content-between"
-              controlId="formLastName"
-            >
+            <Form.Group className="mb-3 d-flex justify-content-between">
               <Form.Label>Last Name</Form.Label>
               <Form.Control
                 type="text"
-                value={employee_last_name}
-                onChange={(e) => setLastName(e.target.value)}
+                name="employee_last_name"
+                value={formData.employee_last_name}
+                onChange={handleInputChange}
                 style={{
                   width: "70%",
-                  ...(lastNameRequired ? { border: "1px solid red" } : {}),
+                  border: errors.employee_last_name ? "1px solid red" : "",
                 }}
               />
+            
             </Form.Group>
 
-            <Form.Group
-              className="mb-3 d-flex justify-content-between"
-              controlId="formEmail"
-            >
+            <Form.Group className="mb-3 d-flex justify-content-between">
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type="email"
-                value={employee_email}
-                onChange={(e) => setEmail(e.target.value)}
+                name="employee_email"
+                value={formData.employee_email}
+                onChange={handleInputChange}
                 style={{
                   width: "70%",
-                  ...(emailError ? { border: "1px solid red" } : {}),
+                  border: errors.employee_email ? "1px solid red" : "",
                 }}
               />
+         
             </Form.Group>
 
-            <Form.Group
-              className="mb-3 d-flex justify-content-between"
-              controlId="formPhone"
-            >
+            <Form.Group className="mb-3 d-flex justify-content-between">
               <Form.Label>Phone</Form.Label>
               <Form.Control
                 type="text"
-                value={employee_phone}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                name="employee_phone"
+                value={formData.employee_phone}
+                onChange={handleInputChange}
                 style={{
                   width: "70%",
-                  ...(phoneError ? { border: "1px solid red" } : {}),
+                  border: errors.employee_phone ? "1px solid red" : "",
                 }}
               />
+              
             </Form.Group>
 
-            <Form.Group
-              className="mb-3 d-flex justify-content-between"
-              controlId="formRole"
-            >
+            <Form.Group className="mb-3 d-flex justify-content-between">
               <Form.Label>Role</Form.Label>
               <Form.Select
-                value={company_role_id}
-                onChange={(e) => setCompany_role_id(e.target.value)}
-                style={{
-                  width: "70%",
-                  border: "1px solid #ced4da",
-                  borderRadius: "5px",
-                }}
+                name="company_role_id"
+                value={formData.company_role_id}
+                onChange={handleInputChange}
+                style={{ width: "70%" }}
               >
                 <option value="">Select The Company Role</option>
                 <option value={1}>Employee</option>
                 <option value={2}>Manager</option>
                 <option value={3}>Admin</option>
               </Form.Select>
+              {errors.company_role_id && (
+                <p style={{ color: "red" }}>?</p>
+              )}
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formPassword">
+            <Form.Group className="mb-3">
               <div className="d-flex justify-content-between">
                 <Form.Label>Password</Form.Label>
                 <Form.Check
@@ -230,19 +200,23 @@ const EmployeeUpdate = ({
                 />
               </div>
               <Form.Control
-                style={{
-                  width: "70%",
-                  ...(passwordError ? { border: "1px solid red" } : {}),
-                }}
                 type="password"
-                disabled={isChecked}
-                onChange={(e) => setPassword(e.target.value)}
+                name="employee_password"
                 value={
                   isChecked
                     ? selectedEmployee.employee_password_hashed
-                    : employee_password
+                    : formData.employee_password
                 }
+                onChange={handleInputChange}
+                disabled={isChecked}
+                style={{
+                  width: "70%",
+                  border: errors.employee_password ? "1px solid red" : "",
+                }}
               />
+              {errors.employee_password && (
+                <p style={{ color: "red" }}>{errors.employee_password}</p>
+              )}
             </Form.Group>
           </Form>
         )}
