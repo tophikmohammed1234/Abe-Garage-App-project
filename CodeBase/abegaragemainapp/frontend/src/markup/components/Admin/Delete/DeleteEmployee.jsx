@@ -3,7 +3,6 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import employeeService from "../../../../services/employee.service";
 import { useAuth } from "../../../../Context/AuthContext";
 import BarLoader from "react-spinners/BarLoader";
-import "./DeleteEmployee.css"; // Assuming you create a CSS file for styles
 
 const DeleteEmployee = () => {
 	const { id } = useParams();
