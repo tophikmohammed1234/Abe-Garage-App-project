@@ -19,5 +19,11 @@ router.get(
   [authMiddleware.verifyToken, authMiddleware.isAdmin],
   serviceController.getAllServices
 );
+//  Route for getting a single service by ID
+router.get(
+  "/api/service/:id",
+  [authMiddleware.verifyToken],
+  serviceController.getServiceById
+);
 
 module.exports = router;
