@@ -42,6 +42,7 @@ async function addCustomer(req, res) {
   }
 }
 
+
 // a function to get all customers
 async function getAllCustomers(req, res) {
   try {
@@ -61,8 +62,28 @@ async function getAllCustomers(req, res) {
   }
 }
 
-// export all the functions
-module.exports = {
-  addCustomer,
-  getAllCustomers,
-};
+
+
+async function getCustomerById(req, res) {
+	try {
+		const  customer_id  = req.params.id;
+		const customer = await customerService.getCustomerById(customer_id);
+		if (!customer) {
+			return res.status(404).json({
+				error: "Customer not found",
+			});
+		}
+		res.status(200).json({
+			status: "success",
+			data: customer[0],	
+		});
+	} catch (error) {
+		console.error("Error:", error);
+		res.status(500).json({
+			error: "Internal Server Error",
+			message: "unexpected error occurred.",
+		});
+	}
+}
+module.exports = { addCustomer, getAllCustomers, getCustomerById };
+

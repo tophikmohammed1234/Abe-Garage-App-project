@@ -69,7 +69,12 @@ async function getAllCustomers() {
   }
 }
 
-module.exports = {
-  addCustomer,
-  getAllCustomers,
-};
+
+async function getCustomerById(customer_id) {
+  const query = `SELECT * FROM customer_identifier INNER JOIN customer_info ON customer_identifier.customer_id = customer_info.customer_id WHERE customer_identifier.customer_id = ?`;
+  const rows = await db.query(query, [customer_id]);
+  return rows;
+}
+
+module.exports = { addCustomer, getAllCustomers, getCustomerById };
+

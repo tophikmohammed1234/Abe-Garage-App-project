@@ -636,3 +636,75 @@ button.theme-btn {
 button.theme-btn:hover {
   background-color: #0056b3;
 }
+
+
+/* NotFound.css */
+.not-found {
+  text-align: center;
+  padding: 100px;
+  background-color: #f4f4f4;
+}
+
+.not-found h1 {
+  font-size: 100px;
+  margin: 0;
+  color: #333;
+}
+
+.not-found h2 {
+  font-size: 24px;
+  margin: 0;
+  color: #666;
+}
+
+.not-found p {
+  font-size: 16px;
+  color: #999;
+}
+
+.not-found a {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.not-found a:hover {
+  text-decoration: underline;
+}
+
+.form-group ::placeholder {
+  padding: 10px;
+}
+
+.form-group input {
+  padding: 20px;
+}
+
+.btn-primary {
+  background-color: red;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-year input {
+  width: 100%;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.vehicle-form-control:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  /* Optional shadow for focused input */
+}
