@@ -692,3 +692,19 @@ button.theme-btn:hover {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
+.form-year input {
+  width: 100%;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.vehicle-form-control:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  /* Optional shadow for focused input */
+}

@@ -85,6 +85,12 @@ const AddVehicleForm = () => {
 						type="submit"
 						onClick={showAddVehicle}
 						className="btn btn-primary"
+						style={{
+							width: "200px",
+							height: "70px",
+							fontSize: "20px",
+							fontWeight: "bold",
+						}}
 					>
 						Add Vehicle
 					</button>
@@ -149,9 +155,9 @@ const AddVehicleForm = () => {
 													placeholder="Vehicle Type"
 												/>
 											</div>
-											<div className="form-group col-md-12">
+											<div className="form-group col-md-12 form-year">
 												<input
-													type="text"
+													type="number"
 													value={vehicleMileage}
 													onChange={(e) => setVehicleMileage(e.target.value)}
 													className="vehicle-form-control"
@@ -187,7 +193,16 @@ const AddVehicleForm = () => {
 											</div>
 										</div>
 										<div className="form-group col-md-12">
-											<button type="submit" className="btn btn-primary">
+											<button
+												type="submit"
+												className="btn btn-primary"
+												style={{
+													width: "200px",
+													height: "70px",
+													fontSize: "20px",
+													fontWeight: "bold",
+												}}
+											>
 												Add Vehicle
 											</button>
 										</div>
