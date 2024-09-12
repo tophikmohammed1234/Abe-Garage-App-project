@@ -40,14 +40,14 @@ const getCustomerById = async (token, id) => {
   return response.json(); // Return the JSON response
 };
 
-const updateCustomer = async (formData, loggedInEmployeeToken) => {
+const updateCustomer = async (customerId, formData, loggedInEmployeeToken) => {
   const requestOptions = {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
       "x-access-token": loggedInEmployeeToken,
     },
-    body: JSON.stringify(formData),
+    body: JSON.stringify({ customer_id: customerId, ...formData }), // Include customerId in the body
   };
   const response = await fetch(`${api_url}/api/customer`, requestOptions);
   return response;

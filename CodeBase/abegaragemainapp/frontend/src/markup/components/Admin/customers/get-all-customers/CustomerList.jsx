@@ -3,7 +3,7 @@ import customerService from "../../../../../services/customer.service";
 import { useAuth } from "../../../../../Context/AuthContext";
 import { FaRegEdit } from "react-icons/fa";
 import SearchIcon from "@mui/icons-material/Search";
-
+import { useNavigate } from "react-router-dom";
 const CustomersList = () => {
   const [customers, setCustomers] = useState([]);
   const [error, setError] = useState(null);
@@ -13,7 +13,7 @@ const CustomersList = () => {
 
   const { employee } = useAuth();
   const token = employee ? employee.employee_token : null;
-
+ const navigate = useNavigate();
   useEffect(() => {
     const loadCustomers = async () => {
       try {
@@ -34,6 +34,9 @@ const CustomersList = () => {
     setCurrentPage(page);
   };
 
+    const handleEditButtonClick = (customerId) => {
+      navigate(`/admin/customer/${customerId}`); 
+    };
   const filteredCustomers = customers.filter((customer) => {
     const searchTerm = searchQuery.toLowerCase();
 
@@ -115,7 +118,12 @@ const CustomersList = () => {
                     </td>
                     <td>{customer.active_customer_status ? "Yes" : "No"}</td>
                     <td>
-                      <FaRegEdit size={20} />
+                      <FaRegEdit
+                        size={20}
+                        onClick={() =>
+                          handleEditButtonClick(customer.customer_id)
+                        }
+                      />
                     </td>
                     <td>link</td>
                   </tr>
