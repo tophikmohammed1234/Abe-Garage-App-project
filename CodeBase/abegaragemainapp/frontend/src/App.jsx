@@ -95,15 +95,7 @@ function App() {
             </PrivateAuthRoute>
           }
         />
-        {/* 
-        Customers (/admin/customers) - managers and admins
-        Orders (/admin/orders) - Can be accessed by all employees
-        Add employee (/admin/add-employee) - admins only 
-            - Admin: 3 
-            - Manager: 2 
-            - Employee: 1 
-        */}
-        <Route
+         <Route
           path="/admin/services"
           element={
             <PrivateAuthRoute roles={[3]}>
@@ -111,6 +103,16 @@ function App() {
             </PrivateAuthRoute>
           }
         />
+
+				{/* 
+        Customers (/admin/customers) - managers and admins
+        Orders (/admin/orders) - Can be accessed by all employees
+        Add employee (/admin/add-employee) - admins only 
+            - Admin: 3 
+            - Manager: 2 
+            - Employee: 1 
+        */}
+       
       </Routes>
       <Footer />
     </>
