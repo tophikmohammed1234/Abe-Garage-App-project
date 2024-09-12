@@ -9,7 +9,7 @@ const authMiddleware = require("../middlewares/auth.middleware");
 
 // Route to add a new service
 router.post(
-  "/api/service",
+  "/api/services",
   [authMiddleware.verifyToken],
   serviceController.addService
 );
@@ -18,6 +18,12 @@ router.get(
   "/api/services",
   [authMiddleware.verifyToken, authMiddleware.isAdmin],
   serviceController.getAllServices
+);
+//  Route for getting a single service by ID
+router.get(
+  "/api/service/:id",
+  [authMiddleware.verifyToken],
+  serviceController.getServiceById
 );
 
 module.exports = router;

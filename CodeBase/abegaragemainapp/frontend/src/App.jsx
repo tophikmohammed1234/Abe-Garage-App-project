@@ -35,6 +35,7 @@ import PrivateAuthRoute from "./markup/components/Auth/PrivateAuthRoute";
 import DeleteEmployee from "./markup/components/Admin/Delete/DeleteEmployee";
 import DashBoard from "./markup/pages/DashBoard";
 import AddCustomerPage from "./markup/pages/admin/AddCustomerPage";
+import Service from "./markup/pages/admin/Service";
 import AddVehiclePage from "./markup/pages/admin/AddVehiclePage";
 
 import CustomerUpdatePage from "./markup/pages/admin/CustomerUpdatePage";
@@ -42,6 +43,7 @@ import CustomerUpdatePage from "./markup/pages/admin/CustomerUpdatePage";
 
 function App() {
 	return (
+
     <>
       <Header />
       <Routes>
@@ -110,7 +112,6 @@ function App() {
             </PrivateAuthRoute>
           }
         />
-
         {/* 
         Customers (/admin/customers) - managers and admins
         Orders (/admin/orders) - Can be accessed by all employees

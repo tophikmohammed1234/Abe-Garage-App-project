@@ -38,4 +38,16 @@ async function getAllServices() {
   return rows;
 }
 
-module.exports = { createService, getAllServices };
+// A function to get service by id
+async function getServiceById(serviceId) {
+  const sql = `
+    SELECT service_id, service_name, service_description
+    FROM common_services
+    WHERE service_id = ?;
+  `;
+
+  const rows = await query(sql, [serviceId]);
+  return rows[0] || null;
+}
+
+module.exports = { createService, getAllServices, getServiceById };
