@@ -56,7 +56,31 @@ async function getAllServices(req, res, next) {
     });
   }
 }
+
+// Create the getServiceById controller
+async function getServiceById(req, res, next) {
+  try {
+    const serviceId = req.params.id;
+    const service = await serviceService.getServiceById(serviceId);
+
+    if (!service) {
+      return res.status(404).json({
+        error: "Not Found",
+        message: "Service with the specified ID not found.",
+      });
+    }
+
+    res.status(200).json(service);
+  } catch (error) {
+    console.error("Error fetching service:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "An unexpected error occurred.",
+    });
+  }
+}
 module.exports = {
   addService,
   getAllServices,
+  getServiceById,
 };
