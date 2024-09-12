@@ -85,5 +85,37 @@ async function getCustomerById(req, res) {
 		});
 	}
 }
-module.exports = { addCustomer, getAllCustomers, getCustomerById };
+
+
+async function updateCustomer(req, res, next) {
+  try {
+    // Capture the original customer ID from the request body
+    const customer_id = req.body.customer_id;
+    if (!customer_id) {
+      return res.status(400).json({ error: "Customer ID is required" });
+    }
+    console.log(customer_id);
+
+    // Update the customer
+    const customerData = req.body;
+    const updatedCustomer = await customerService.updateCustomer(customerData);
+
+    if (!updatedCustomer.customer_id) {
+      return res.status(400).json({ error: "Failed to update the customer!" });
+    }
+
+    return res
+      .status(200)
+      .json({ status: "success", customer_id: updatedCustomer.customer_id });
+  } catch (err) {
+    console.error("Update error:", err.message);
+    return res.status(500).json({ error: "Something went wrong!" });
+  }
+}
+module.exports = {
+  addCustomer,
+  getAllCustomers,
+  getCustomerById,
+  updateCustomer,
+};
 
