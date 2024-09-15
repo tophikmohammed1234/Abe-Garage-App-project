@@ -3,6 +3,7 @@ import AddVehicleForm from "../components/Admin/AddVehicleForm/AddVehicleForm";
 import { Link, useParams } from "react-router-dom";
 import customerService from "../../services/customer.service";
 import { useAuth } from "../../Context/AuthContext";
+import { FaRegEdit } from "react-icons/fa";
 
 const CustomerPage = () => {
   const { customerId } = useParams(); // Get customer id from URL
@@ -13,18 +14,16 @@ const CustomerPage = () => {
   const [vehicles, setVehicles] = useState([]); // Dynamic vehicles
   const [orders, setOrders] = useState([]); // Dynamic orders
   const [error, setError] = useState(null); // State to handle errors
-const id = customerId;
+  const id = customerId;
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
         // Directly use customerData as it's already parsed
-        const customerData = await customerService.getCustomerById(
-          token,
-          id
-        );
+        const customerData = await customerService.getCustomerById(token, id);
+        // const VehicleData=await customerService(token, id);
         setCustomer(customerData.data);
-        setVehicles(customerData.vehicles || []); // Assuming customerData contains vehicles
-        setOrders(customerData.orders || []); // Assuming customerData contains orders
+        // setVehicles(vehicleData.vehicles || []); // Assuming customerData contains vehicles
+        // setOrders(orderData.orders || []); // Assuming customerData contains orders
       } catch (err) {
         setError(err.message);
       }
@@ -34,55 +33,47 @@ const id = customerId;
       fetchCustomer();
     }
   }, [token, customerId]);
-console.log(customer)
+  console.log(customer);
   const styles = {
     page: {
       fontFamily: "Arial, sans-serif",
-      color: "#333",
-      padding: "20px",
+      color: "#222B48",
+      padding: "20px 0",
       backgroundColor: "#f5f5f5",
     },
     section: {
       padding: "20px",
       marginBottom: "20px",
       borderRadius: "8px",
+      width: "80%",
       boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
-      backgroundColor: "#fff",
     },
     customerName: {
       fontSize: "24px",
       marginBottom: "10px",
+      fontWeight: "bold",
     },
     customerInfo: {
       margin: "5px 0",
       fontSize: "16px",
     },
     editButton: {
-      backgroundColor: "transparent",
       border: "none",
-      color: "#e74c3c",
-      fontSize: "14px",
+      color: "#222B48",
+      fontSize: "16px",
+      fontWeight: "bold",
       cursor: "pointer",
-      marginTop: "10px",
-      padding: 0,
-      display: "inline-block",
+   
     },
     sectionTitle: {
       fontSize: "20px",
       marginBottom: "10px",
+      fontWeight: "bold",
     },
     noVehicles: {
       fontSize: "16px",
       color: "#999",
-    },
-    addVehicleButton: {
-      backgroundColor: "#e74c3c",
-      color: "#fff",
-      border: "none",
-      padding: "10px 20px",
-      fontSize: "14px",
-      cursor: "pointer",
-      borderRadius: "4px",
+      backgroundColor: "#fff",
     },
     ordersPlaceholder: {
       fontSize: "16px",
@@ -105,7 +96,7 @@ console.log(customer)
       justifyContent: "center",
       alignItems: "center",
       fontSize: "16px", // Larger text inside the circle
-      marginBottom: "20px",
+      margin: "40px 40px 0 0",
     },
   };
 
@@ -127,7 +118,10 @@ console.log(customer)
           <div className="d-flex">
             <div style={styles.sidebarCircle}>Info</div>
             <div style={styles.section}>
-              <h2 style={styles.customerName}>Customer: {customer.name}</h2>
+              <h2 style={styles.customerName}>
+                Customer: {customer.customer_first_name}{" "}
+                {customer.customer_last_name}
+              </h2>
               <p style={styles.customerInfo}>
                 <strong>Email:</strong> {customer.customer_email}
               </p>
@@ -142,7 +136,7 @@ console.log(customer)
                 to={`/admin/customer/${customerId}`}
                 style={styles.editButton}
               >
-                Edit customer info ✏️
+                Edit customer info {<FaRegEdit color="red" />}
               </Link>
             </div>
           </div>
@@ -151,7 +145,9 @@ console.log(customer)
           <div className="d-flex">
             <div style={styles.sidebarCircle}>Cars</div>
             <div style={styles.section}>
-              <h3 style={styles.sectionTitle}>Vehicles of {customer.name}</h3>
+              <h3 style={styles.sectionTitle}>
+                Vehicles of {customer.customer_first_name}
+              </h3>
               {vehicles.length === 0 ? (
                 <div style={styles.noVehicles}>
                   <p>No vehicle found</p>
@@ -163,7 +159,6 @@ console.log(customer)
                   ))}
                 </ul>
               )}
-              {/* <button style={styles.addVehicleButton}>ADD NEW VEHICLE</button> */}
               <AddVehicleForm customerId={customerId} />
             </div>
           </div>
@@ -171,7 +166,9 @@ console.log(customer)
           <div className="d-flex">
             <div style={styles.sidebarCircle}>Orders</div>
             <div style={styles.section}>
-              <h3 style={styles.sectionTitle}>Orders of {customer.name}</h3>
+              <h3 style={styles.sectionTitle}>
+                Orders of {customer.customer_first_name}
+              </h3>
               {orders.length === 0 ? (
                 <p style={styles.ordersPlaceholder}>
                   Orders will be displayed here
