@@ -3,7 +3,7 @@ import customerService from "../../../../../services/customer.service";
 import { useAuth } from "../../../../../Context/AuthContext";
 import { FaRegEdit } from "react-icons/fa";
 import SearchIcon from "@mui/icons-material/Search";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const CustomersList = () => {
   const [customers, setCustomers] = useState([]);
   const [error, setError] = useState(null);
@@ -125,7 +125,7 @@ const CustomersList = () => {
                         }
                       />
                     </td>
-                    <td>link</td>
+                    <td><Link to={`/admin/customer/profile/${customer.customer_id}`}>Link</Link></td>
                   </tr>
                 ))}
               </tbody>

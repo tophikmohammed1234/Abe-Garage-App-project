@@ -30,7 +30,7 @@ function AdminMenu(props) {
 					Customers
 				</Link>
 				<Link to="/admin/services" className="list-group-item">
-					Services
+					Manage Services
 				</Link>
 				<Link to="/admin/add-vehicle" className="list-group-item">
 					Add Vehicle
