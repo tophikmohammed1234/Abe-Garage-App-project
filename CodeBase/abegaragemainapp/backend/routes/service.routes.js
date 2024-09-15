@@ -9,21 +9,24 @@ const authMiddleware = require("../middlewares/auth.middleware");
 
 // Route to add a new service
 router.post(
-  "/api/services",
-  [authMiddleware.verifyToken],
-  serviceController.addService
+	"/api/services",
+	[authMiddleware.verifyToken],
+	serviceController.addService
 );
 // Create a route to handle the get all service
 router.get(
-  "/api/services",
-  [authMiddleware.verifyToken, authMiddleware.isAdmin],
-  serviceController.getAllServices
+	"/api/services",
+	[authMiddleware.verifyToken, authMiddleware.isAdmin],
+	serviceController.getAllServices
 );
 //  Route for getting a single service by ID
 router.get(
-  "/api/service/:id",
-  [authMiddleware.verifyToken],
-  serviceController.getServiceById
+	"/api/service/:id",
+	[authMiddleware.verifyToken],
+	serviceController.getServiceById
 );
+// Route to handle the delete Service request on delete
+router.get("/api/services/:id", serviceController.getServiceById);
+router.delete("/api/services/:id", serviceController.deleteService);
 
 module.exports = router;
