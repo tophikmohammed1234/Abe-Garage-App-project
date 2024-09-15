@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import serviceService from "../../../../services/service.service"; // Updated import
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../../Context/AuthContext";
 
 function AddServiceForm() {
   const [serviceName, setServiceName] = useState("");
@@ -12,6 +13,12 @@ function AddServiceForm() {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+	let loggedInEmployeeToken = "";
+  // Destructure the auth hook and get the token
+  const { employee } = useAuth();
+  if (employee && employee.employee_token) {
+    loggedInEmployeeToken = employee.employee_token;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +49,10 @@ function AddServiceForm() {
     };
 
     try {
-      const response = await serviceService.addService(formData); // Updated function call
+      const response = await serviceService.addService(
+        formData,
+        loggedInEmployeeToken
+      ); // Updated function call
 
       if (response.error) {
         setServerError(response.error);
