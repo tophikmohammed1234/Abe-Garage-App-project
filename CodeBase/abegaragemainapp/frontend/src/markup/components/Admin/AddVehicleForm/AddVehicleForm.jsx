@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const AddVehicleForm = () => {
-	const customerId = "1";
+	const {customerId} = useParams();
 	const [vehicleMake, setVehicleMake] = useState("");
 	const [vehicleModel, setVehicleModel] = useState("");
 	const [vehicleYear, setVehicleYear] = useState("");
@@ -59,7 +60,7 @@ const AddVehicleForm = () => {
 				setSuccess(true);
 				setServerError("");
 				setTimeout(() => {
-					window.location.href = "/admin/add-vehicle";
+					window.location.href = `/admin/customer/profile/${customerId}`;
 				}, 2000);
 			} else {
 				setServerError(response.data.message || "Unknown error");
@@ -205,6 +206,8 @@ const AddVehicleForm = () => {
 											>
 												Add Vehicle
 											</button>
+											<br />
+											<button type="button" onClick={() => setShow(false)}>up</button>
 										</div>
 									</form>
 								</div>

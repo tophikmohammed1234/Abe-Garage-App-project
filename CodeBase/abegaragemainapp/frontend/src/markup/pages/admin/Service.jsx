@@ -10,6 +10,7 @@ function Service() {
           <AdminMenu />
         </div>
         <div className="col-md-9 admin-right-side">
+          
           <AddServiceForm />
         </div>
       </div>

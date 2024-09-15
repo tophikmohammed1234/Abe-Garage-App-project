@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import customerService from "../../../../../services/customer.service";
 import { useAuth } from "../../../../../Context/AuthContext";
 import { FaRegEdit } from "react-icons/fa";
+
 import { useNavigate } from "react-router-dom";
 import SearchCustomer from "../../SearchCustomer/SearchCustomer";
 import { FaExternalLinkAlt } from "react-icons/fa";
@@ -65,6 +66,7 @@ const CustomersList = () => {
   }
 
   return (
+
     <section className="contact-section">
       <div className="my-3">
         <div className="contact-title contact-customer mb-4">

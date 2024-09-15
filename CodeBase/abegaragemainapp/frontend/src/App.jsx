@@ -39,11 +39,12 @@ import Service from "./markup/pages/admin/Service";
 import AddVehiclePage from "./markup/pages/admin/AddVehiclePage";
 
 import CustomerUpdatePage from "./markup/pages/admin/CustomerUpdatePage";
+import CustomerProfile from "./markup/pages/admin/CustomerProfile";
+// import AddServiceForm from "./markup/components/Admin/AddServiceForm/AddServiceForm";
 
 
 function App() {
 	return (
-
     <>
       <Header />
       <Routes>
@@ -109,6 +110,22 @@ function App() {
           element={
             <PrivateAuthRoute roles={[3]}>
               <AddVehiclePage />
+            </PrivateAuthRoute>
+          }
+        />
+        <Route
+          path="/admin/customer/profile/:customerId"
+          element={
+            <PrivateAuthRoute roles={[3]}>
+              <CustomerProfile />
+            </PrivateAuthRoute>
+          }
+        />
+        <Route
+          path="/admin/Services"
+          element={
+            <PrivateAuthRoute roles={[3]}>
+              <Service />
             </PrivateAuthRoute>
           }
         />
