@@ -42,5 +42,17 @@ async function addVehicle(vehicleData) {
 		await connection.release();
 	}
 }
+//get vehicle by id
+async function getVehicleById(vehicle_id) {
+  const sql = `
+    SELECT vehicle_id, customer_id, vehicle_model, vehicle_year, vehicle_make, vehicle_type, vehicle_mileage, vehicle_tag, vehicle_serial, vehicle_color
+    FROM customer_vehicle_info
+    WHERE vehicle_id = ?
+  `;
 
-module.exports = { addVehicle };
+  // Call the query function from db
+  const rows = await db.query(sql, [vehicle_id]);
+  return rows[0] || null;
+}
+
+module.exports = { addVehicle, getVehicleById };
