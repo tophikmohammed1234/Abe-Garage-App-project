@@ -60,7 +60,7 @@ function AddServiceForm() {
 				setSuccess(true);
 				setServerError("");
 				setTimeout(() => {
-					navigate("/"); // Navigate using React Router
+					window.location.href = "/admin/services";
 				}, 2000);
 			}
 		} catch (error) {
