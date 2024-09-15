@@ -55,10 +55,28 @@ const DeleteService = async (token, id) => {
 	return data;
 };
 
+
+
+// A function to send get request to get all services 
+const getService = async (token) => {
+  // console.log(token);
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": token,
+    },
+  };
+  const response = await fetch(`${api_url}/api/services`, requestOptions);
+  return response;
+};
+
 // Export the addService function
 const serviceService = {
+
 	addService,
 	getServiceById,
 	DeleteService,
+  getService,
 };
 export default serviceService;
