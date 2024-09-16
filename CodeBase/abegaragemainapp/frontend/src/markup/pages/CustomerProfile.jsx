@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import customerService from "../../services/customer.service";
 import { useAuth } from "../../Context/AuthContext";
 import { FaRegEdit } from "react-icons/fa";
+import GetAllVehiclesPerCustomer from "../components/Admin/GetAllVehiclesPerCustomer/GetAllVehiclesPerCustomer";
 
 const CustomerPage = () => {
   const { customerId } = useParams(); // Get customer id from URL
@@ -11,7 +12,7 @@ const CustomerPage = () => {
   const token = employee ? employee.employee_token : null;
 
   const [customer, setCustomer] = useState({});
-  const [vehicles, setVehicles] = useState([]); // Dynamic vehicles
+
   const [orders, setOrders] = useState([]); // Dynamic orders
   const [error, setError] = useState(null); // State to handle errors
   const id = customerId;
@@ -44,8 +45,9 @@ const CustomerPage = () => {
     section: {
       padding: "20px",
       marginBottom: "20px",
+      paddingLeft: "30px",
       borderRadius: "8px",
-      width: "80%",
+      width: "100%",
       boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
     },
     customerName: {
@@ -63,17 +65,19 @@ const CustomerPage = () => {
       fontSize: "16px",
       fontWeight: "bold",
       cursor: "pointer",
-   
     },
     sectionTitle: {
       fontSize: "20px",
       marginBottom: "10px",
       fontWeight: "bold",
+      paddingLeft: "30px",
     },
     noVehicles: {
       fontSize: "16px",
       color: "#999",
       backgroundColor: "#fff",
+      paddingLeft: "30px",
+      marginBottom:"15px"
     },
     ordersPlaceholder: {
       fontSize: "16px",
@@ -142,23 +146,16 @@ const CustomerPage = () => {
           </div>
 
           {/* Vehicles Section */}
-          <div className="d-flex">
+          <div className="d-flex ">
             <div style={styles.sidebarCircle}>Cars</div>
             <div style={styles.section}>
               <h3 style={styles.sectionTitle}>
                 Vehicles of {customer.customer_first_name}
               </h3>
-              {vehicles.length === 0 ? (
-                <div style={styles.noVehicles}>
-                  <p>No vehicle found</p>
-                </div>
-              ) : (
-                <ul>
-                  {vehicles.map((vehicle, index) => (
-                    <li key={index}>{vehicle}</li>
-                  ))}
-                </ul>
-              )}
+              <GetAllVehiclesPerCustomer
+                customerId={customerId}
+                styles={styles}
+              />
               <AddVehicleForm customerId={customerId} />
             </div>
           </div>
