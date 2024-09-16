@@ -14,4 +14,29 @@ const createVehicle = async (formData, loggedInEmployeeToken) => {
 	return response;
 };
 
-export { createVehicle };
+//get vehicle by id
+const getVehicleByCustomerId = async (token, id) => {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": token,
+    },
+  };
+
+  try {
+    const response = await fetch(
+      `${api_url}/api/vehicle/${id}`,
+      requestOptions
+    );
+
+    if (!response.ok) {
+      return { error: `Service not found, status: ${response.status}` };
+    }
+
+    return await response.json();
+  } catch (error) {
+    return { error: "Failed to fetch service data" };
+  }
+};
+export { createVehicle, getVehicleByCustomerId };
