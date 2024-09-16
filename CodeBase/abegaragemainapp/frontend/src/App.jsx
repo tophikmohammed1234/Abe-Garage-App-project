@@ -35,7 +35,13 @@ import PrivateAuthRoute from "./markup/components/Auth/PrivateAuthRoute";
 import DeleteEmployee from "./markup/components/Admin/Delete/DeleteEmployee";
 import DashBoard from "./markup/pages/DashBoard";
 import AddCustomerPage from "./markup/pages/admin/AddCustomerPage";
+import Service from "./markup/pages/admin/Service";
 import AddVehiclePage from "./markup/pages/admin/AddVehiclePage";
+
+import CustomerUpdatePage from "./markup/pages/admin/CustomerUpdatePage";
+import CustomerProfile from "./markup/pages/admin/CustomerProfile";
+import DeleteService from "./markup/components/Admin/Delete/DeleteService";
+// import AddServiceForm from "./markup/components/Admin/AddServiceForm/AddServiceForm";
 
 function App() {
 	return (
@@ -67,6 +73,10 @@ function App() {
 					}
 				/>
 				{/* // Add the Customers Route  */}
+				<Route
+					path="/admin/customer/:customerId"
+					element={<CustomerUpdatePage />}
+				/>
 				<Route
 					path="/admin/customers"
 					element={
@@ -100,6 +110,30 @@ function App() {
 					element={
 						<PrivateAuthRoute roles={[3]}>
 							<AddVehiclePage />
+						</PrivateAuthRoute>
+					}
+				/>
+				<Route
+					path="/admin/customer/profile/:customerId"
+					element={
+						<PrivateAuthRoute roles={[3]}>
+							<CustomerProfile />
+						</PrivateAuthRoute>
+					}
+				/>
+				<Route
+					path="/admin/Services"
+					element={
+						<PrivateAuthRoute roles={[3]}>
+							<Service />
+						</PrivateAuthRoute>
+					}
+				/>
+				<Route
+					path="/admin/services/:id"
+					element={
+						<PrivateAuthRoute roles={[2, 3]}>
+							<DeleteService />
 						</PrivateAuthRoute>
 					}
 				/>

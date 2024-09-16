@@ -9,4 +9,6 @@ router.get("/api/customers", customerController.getAllCustomers);
 
 //get customer by id
 router.get("/api/customer/:id", customerController.getCustomerById);
+//Update Customer
+router.put("/api/customer", customerController.updateCustomer);
 module.exports = router;

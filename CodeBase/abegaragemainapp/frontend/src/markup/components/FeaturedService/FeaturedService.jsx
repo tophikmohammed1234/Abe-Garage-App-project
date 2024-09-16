@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
+import { serviceData } from "./data";
 
 const FeaturedService = () => {
+  const [showMore, setShowMore] = useState([]);
+
+  const handleReadMoreClick = (index) => {
+    const currentExpanded = [...showMore];
+
+    if (currentExpanded.includes(index)) {
+      // Remove the index if it's already expanded
+      setShowMore(currentExpanded.filter((i) => i !== index));
+    } else {
+      // Add the index if it's not expanded
+      setShowMore([...currentExpanded, index]);
+    }
+  };
+
   return (
     <>
       <section className="services-section" id="feature">
@@ -15,78 +30,32 @@ const FeaturedService = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-4 service-block-one">
-              <div className="inner-box hvr-float-shadow">
-                <h5>Service and Repairs</h5>
-                <h2>Performance Upgrade</h2>
-                <a href="#" className="read-more">
-                  read more +
-                </a>
-                <div className="icon">
-                  <span className="flaticon-power"></span>
+            {serviceData.map((service, index) => (
+              <div
+                className="col-lg-4 service-block-one"
+                key={index}
+                style={{ display: "flex", flexDirection: "column" }}
+              >
+                <div
+                  className="inner-box hvr-float-shadow"
+                  style={{ minHeight: "200px" }}
+                >
+                  <h5>{service.title}</h5>
+                  <h2>{service.subtitle}</h2>
+                  <button
+                    className="read-more text-danger"
+                    onClick={() => handleReadMoreClick(index)}
+                    style={{ marginBottom: "10px" }}
+                  >
+                    {showMore.includes(index) ? "Read Less" : "Read More"}
+                  </button>
+                  <div className="icon">
+                    <span className={service.icon}></span>
+                  </div>
+                  {showMore.includes(index) && <p>{service.description}</p>}
                 </div>
               </div>
-            </div>
-            <div className="col-lg-4 service-block-one">
-              <div className="inner-box hvr-float-shadow">
-                <h5>Service and Repairs</h5>
-                <h2>Transmission Services</h2>
-                <a href="#" className="read-more">
-                  read more +
-                </a>
-                <div className="icon">
-                  <span className="flaticon-gearbox"></span>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 service-block-one">
-              <div className="inner-box hvr-float-shadow">
-                <h5>Service and Repairs</h5>
-                <h2>Break Repair & Service</h2>
-                <a href="#" className="read-more">
-                  read more +
-                </a>
-                <div className="icon">
-                  <span className="flaticon-brake-disc"></span>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 service-block-one">
-              <div className="inner-box hvr-float-shadow">
-                <h5>Service and Repairs</h5>
-                <h2>Engine Service & Repair</h2>
-                <a href="#" className="read-more">
-                  read more +
-                </a>
-                <div className="icon">
-                  <span className="flaticon-car-engine"></span>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 service-block-one">
-              <div className="inner-box hvr-float-shadow">
-                <h5>Service and Repairs</h5>
-                <h2>Tyre & Wheels</h2>
-                <a href="#" className="read-more">
-                  read more +
-                </a>
-                <div className="icon">
-                  <span className="flaticon-tire"></span>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 service-block-one">
-              <div className="inner-box hvr-float-shadow">
-                <h5>Service and Repairs</h5>
-                <h2>Denting & Painting</h2>
-                <a href="#" className="read-more">
-                  read more +
-                </a>
-                <div className="icon">
-                  <span className="flaticon-spray-gun"></span>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
