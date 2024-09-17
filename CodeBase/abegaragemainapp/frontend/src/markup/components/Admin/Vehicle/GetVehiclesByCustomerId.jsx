@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../../../../Context/AuthContext";
-import { getVehicleByCustomerId } from "../../../../services/vehicle.service";
+import vehicleService from "../../../../services/vehicle.service";
 import { FaHandPointer } from "react-icons/fa";
 
 const GetVehiclesByCustomerId = () => {
-  const { id } = useParams(); // Get vehicle ID from route params
+  const customerId = useParams(); // Get vehicle ID from route params
   const { employee } = useAuth(); // Get employee data from AuthContext
   const token = employee ? employee?.employee_token : null; // Get token
   const [vehicle, setVehicle] = useState(null);
@@ -13,13 +13,18 @@ const GetVehiclesByCustomerId = () => {
 
   useEffect(() => {
     const fetchVehicle = async () => {
-      if (token && id) {
-        const result = await getVehicleByCustomerId(token, id);
+      if (token && customerId) {
+        const result = await vehicleService.GetAllVehiclesPerCustomer(
+          token,
+          customerId
+        );
         // console.log(result);
         if (result.error) {
           setError(result.error);
         } else {
           setVehicle(result);
+          console.log(result);
+          console.log(result);
         }
       } else {
         setError("Token or Vehicle ID missing.");
@@ -63,12 +68,11 @@ const GetVehiclesByCustomerId = () => {
             <td style={styles.td}>{vehicle.vehicle_color}</td>
             <td style={styles.td}>{vehicle.vehicle_mileage}</td>
             <td style={styles.td}>
-             
-                <span role="img" aria-label="select">
-                  <Link to={`/admin/order/customer/service/${id}`}>
-                    <FaHandPointer style={styles.link} />
-                  </Link>
-                </span>
+              <span role="img" aria-label="select">
+                <Link to={`/admin/order/customer/service/${customerId}`}>
+                  <FaHandPointer style={styles.link} />
+                </Link>
+              </span>
             </td>
           </tr>
         </tbody>
