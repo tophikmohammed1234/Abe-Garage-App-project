@@ -2,6 +2,10 @@
 import React, { useState, useEffect } from "react";
 import serviceService from "../../../../services/service.service";
 import { useAuth } from "../../../../Context/AuthContext";
+<<<<<<< HEAD
+=======
+
+>>>>>>> 55854da01a37a6fd0887368e76a6caed354a5f02
 
 // function SelectService() {
 //   const [services, setServices] = useState([]);
