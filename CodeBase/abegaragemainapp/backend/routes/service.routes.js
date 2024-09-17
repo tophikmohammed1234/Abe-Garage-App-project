@@ -25,6 +25,16 @@ router.get(
 	[authMiddleware.verifyToken],
 	serviceController.getServiceById
 );
+//Route to update an existing service by id
+router.put(
+  "/api/services/:service_id",
+  [
+    authMiddleware.verifyToken,
+    authMiddleware.isAdmin || authMiddleware.isManager
+  ],
+  serviceController.updateService
+);
+
 // Route to handle the delete Service request on delete
 router.get("/api/services/:id", serviceController.getServiceById);
 router.delete("/api/services/:id", serviceController.deleteService);
