@@ -31,10 +31,29 @@ const GetAllVehiclesPerCustomer = async (token, customer_id) => {
   const data = await response.json(); // Make sure to parse the response
   return data; // Return parsed data
 };
+const GetVehicleById = async (token, vehicle_id) => {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": token, // Use token for authentication
+    },
+  };
+
+  // Send customer_id in the URL, not in the body
+  const response = await fetch(
+    `${api_url}/api/vehicle/${vehicle_id}`,
+    requestOptions
+  );
+
+  const data = await response.json(); // Make sure to parse the response
+  return data; // Return parsed data
+};
 
 const vehicleService = {
   createVehicle,
   GetAllVehiclesPerCustomer,
+  GetVehicleById,
 };
 
 export default vehicleService;

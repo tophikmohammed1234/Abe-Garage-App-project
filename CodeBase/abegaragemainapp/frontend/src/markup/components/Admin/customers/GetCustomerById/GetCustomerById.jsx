@@ -10,7 +10,7 @@ const GetCustomerById = () => {
   const { employee } = useAuth();
   const token = employee ? employee.employee_token : null;
 
-  const [customer, setCustomer] = useState({});
+  const [customer, setCustomer] = useState(null);
   const [error, setError] = useState(null); // State to handle errors
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const GetCustomerById = () => {
     if (token && id) {
       fetchCustomer();
     }
-  }, [token]);
+  }, [token, id]); // Add 'id' as a dependency
 
   // Return if customer is not fetched or there's an error
   if (error) {
@@ -39,26 +39,22 @@ const GetCustomerById = () => {
 
   return (
     <div style={styles.container}>
-      {/* Title */}
-     
-
-      {/* Customer Info Card */}
       <div style={styles.card}>
         <div style={styles.customerDetails}>
-          <h3>
+          <h3 style={styles.customerName}>
             {customer.customer_first_name} {customer.customer_last_name}
           </h3>
-          <p>
+          <p style={styles.customerInfo}>
             <strong>Email:</strong> {customer.customer_email}
           </p>
-          <p>
+          <p style={styles.customerInfo}>
             <strong>Phone Number:</strong> {customer.customer_phone_number}
           </p>
-          <p>
+          <p style={styles.customerInfo}>
             <strong>Active Customer:</strong>{" "}
             {customer.active_customer_status ? "Yes" : "No"}
           </p>
-          <Link to={`/admin/customer/${id}`} style={styles.editLink}>
+          <Link to={`/admin/customer/${id}/edit`} style={styles.editLink}>
             Edit customer info <FaRegEdit color="red" />
           </Link>
         </div>
@@ -68,8 +64,6 @@ const GetCustomerById = () => {
           <button style={styles.deleteIcon}>X</button>
         </div>
       </div>
-
-      {/* Edit Link */}
     </div>
   );
 };
@@ -83,19 +77,6 @@ const styles = {
     borderRadius: "8px",
     backgroundColor: "#f9f9f9",
   },
-  title: {
-    fontSize: "24px",
-    color: "#333",
-    marginBottom: "20px",
-    position: "relative",
-  },
-  underline: {
-    display: "inline-block",
-    width: "100px",
-    height: "2px",
-    backgroundColor: "red",
-    marginTop: "5px",
-  },
   card: {
     display: "flex",
     justifyContent: "space-between",
@@ -107,6 +88,15 @@ const styles = {
     fontSize: "16px",
     color: "#333",
     lineHeight: "1.5",
+  },
+  customerName: {
+    fontSize: "24px",
+    marginBottom: "10px",
+    fontWeight: "bold",
+  },
+  customerInfo: {
+    margin: "5px 0",
+    fontSize: "16px",
   },
   deleteButton: {
     display: "flex",
@@ -121,6 +111,15 @@ const styles = {
     borderRadius: "50%",
     cursor: "pointer",
     fontSize: "16px",
+  },
+  editLink: {
+    fontSize: "16px",
+    color: "#222B48",
+    fontWeight: "bold",
+    textDecoration: "none",
+    marginTop: "10px",
+    display: "inline-flex",
+    alignItems: "center",
   },
 };
 
