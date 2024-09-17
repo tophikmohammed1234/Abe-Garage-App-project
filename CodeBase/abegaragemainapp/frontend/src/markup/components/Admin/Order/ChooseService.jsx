@@ -1,11 +1,6 @@
-
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import serviceService from "../../../../services/service.service";
 import { useAuth } from "../../../../Context/AuthContext";
-<<<<<<< HEAD
-=======
-
->>>>>>> 55854da01a37a6fd0887368e76a6caed354a5f02
 
 // function SelectService() {
 //   const [services, setServices] = useState([]);
@@ -128,18 +123,18 @@ import { useAuth } from "../../../../Context/AuthContext";
 
 // export default SelectService;
 
-import React from 'react'
-import GetCustomerById from '../customers/GetCustomerById/GetCustomerById'
-import GetVehicleById from '../GetVehicleById/GetVehicleById';
+import React from "react";
+import GetCustomerById from "../customers/GetCustomerById/GetCustomerById";
+import GetVehicleById from "../GetVehicleById/GetVehicleById";
 
 function ChooseService() {
   return (
     <div>
       <GetCustomerById />
-      <GetVehicleById/>
+      <GetVehicleById />
       {/* use here */}
     </div>
   );
 }
 
-export default ChooseService
+export default ChooseService;

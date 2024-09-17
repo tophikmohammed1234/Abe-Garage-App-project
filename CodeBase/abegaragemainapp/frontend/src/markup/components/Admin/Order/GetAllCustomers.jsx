@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import{ useEffect, useState } from "react";
 import customerService from "../../../../services/customer.service";
 import { useAuth } from "../../../../Context/AuthContext";
 import { FaHandPointer } from "react-icons/fa";

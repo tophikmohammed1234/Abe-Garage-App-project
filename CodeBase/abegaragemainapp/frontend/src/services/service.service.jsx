@@ -98,18 +98,10 @@ const getService = async (token) => {
 
 // Export the addService function
 const serviceService = {
-<<<<<<< HEAD
-
-=======
->>>>>>> 55854da01a37a6fd0887368e76a6caed354a5f02
-	addService,
-	getServiceById,
-	updateService,
-	DeleteService,
-<<<<<<< HEAD
-    getService,
-=======
+  addService,
+  getServiceById,
+  updateService,
+  DeleteService,
   getService,
->>>>>>> 55854da01a37a6fd0887368e76a6caed354a5f02
 };
 export default serviceService;
