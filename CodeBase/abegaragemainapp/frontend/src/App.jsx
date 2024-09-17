@@ -158,7 +158,7 @@ function App() {
           }
         />
         <Route
-          path="/admin/order/customer/service/:id"
+          path="/admin/order/customer/service/:id/:vehicleId"
           element={
             <PrivateAuthRoute roles={[2, 3]}>
               <ChooseService />
