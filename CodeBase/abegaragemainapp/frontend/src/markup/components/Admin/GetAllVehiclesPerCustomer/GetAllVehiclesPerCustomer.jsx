@@ -74,7 +74,7 @@ const GetAllVehiclesPerCustomer = ({ styles }) => {
               <p style={styles.customerInfo}>
                 <strong>Vehicle Serial:</strong> {vehicle.vehicle_serial}
               </p>
-              <div style={styles.buttonContainer}>
+              <div style={{...styles.buttonContainer, paddingRight: '70px'}}>
                 <Link
                   to={`/admin/customer/${customerId}/vehicle/${vehicle.vehicle_id}/edit`}
                   style={styles.editButton}
