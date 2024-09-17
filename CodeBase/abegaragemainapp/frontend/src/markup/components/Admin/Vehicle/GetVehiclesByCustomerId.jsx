@@ -72,7 +72,9 @@ const GetVehiclesByCustomerId = () => {
               <td style={styles.td}>{vehicle.vehicle_mileage}</td>
               <td style={styles.td}>
                 <span role="img" aria-label="select">
-                  <Link to={`/admin/order/customer/service/${customer_id}/${vehicle.vehicle_id}`}>
+                  <Link
+                    to={`/admin/order/customer/service/${customer_id}/${vehicle.vehicle_id}`}
+                  >
                     <FaHandPointer style={styles.link} />
                   </Link>
                 </span>
@@ -123,8 +125,24 @@ const styles = {
     cursor: "pointer",
     fontSize: "16px",
   },
+  // new  delete button style
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: "10px",
+  },
+  deleteButton: {
+    backgroundColor: "red",
+    color: "white",
+    border: "none",
+    padding: "8px 12px",
+    borderRadius: "4px",
+    cursor: "pointer",
+    fontSize: "14px",
+    display: "flex",
+    alignItems: "center",
+    gap: "5px",
+  },
 };
-
-
 
 export default GetVehiclesByCustomerId;

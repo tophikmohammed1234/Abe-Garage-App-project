@@ -49,7 +49,7 @@ import ChooseService from "./markup/pages/admin/ChooseService";
 import ServiceUpdatePage from "./markup/pages/admin/ServiceUpdatePage";
 
 function App() {
-	return (
+  return (
     <>
       <Header />
       <Routes>
@@ -142,7 +142,6 @@ function App() {
             </PrivateAuthRoute>
           }
         />
-
 
         {/* Add the route for ServiceUpdatePage */}
         <Route

@@ -49,11 +49,28 @@ const GetVehicleById = async (token, vehicle_id) => {
   const data = await response.json(); // Make sure to parse the response
   return data; // Return parsed data
 };
+// Delete a vehicle
+const deleteVehicle = async (token, vehicle_id) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": token, // Use token for authentication
+    },
+  };
+
+  const response = await fetch(
+    `${api_url}/api/vehicle/${vehicle_id}`,
+    requestOptions
+  );
+  return response;
+};
 
 const vehicleService = {
   createVehicle,
   GetAllVehiclesPerCustomer,
   GetVehicleById,
+  deleteVehicle,
 };
 
 export default vehicleService;
