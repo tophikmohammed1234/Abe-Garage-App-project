@@ -43,10 +43,25 @@ const isAdmin = async (req, res, next) => {
     });
   }
 };
+// A function to check if the user is a manager
+const isManager = async (req, res, next) => {
+  const employee_email = req.employee_email;
+  const employee = await employeeService.getEmployeeByEmail(employee_email);
+
+  if (employee[0].company_role_id === 2) {
+    next();
+  } else {
+    return res.status(403).send({
+      status: "fail",
+      error: "Not a Manager!",
+    });
+  }
+};
 
 const authMiddleware = {
   verifyToken,
   isAdmin,
+  isManager,
 };
 
 module.exports = authMiddleware;
