@@ -12,8 +12,8 @@ const GetVehiclesByCustomerId = () => {
           <div className="col-md-3 admin-left-side">
             <AdminMenu />
           </div>
-          <div className="col-md-9 admin-right-side px-0">
-            <h2 >
+          <div className="col-md-9 admin-right-side px-0 contact-title">
+            <h2 className="m-4 font-weight-bold">
               Create a new order 
             </h2>
             <GetCustomerById />

@@ -101,72 +101,77 @@ const EmployeesList = () => {
           </div>
         </section>
       ) : (
-        <>
-          <section className="contact-section">
-            <div className="auto-container">
-              <div className="contact-title mb-4">
-                <h2>Employees</h2>
-              </div>
-              <Table striped bordered hover responsive>
-                <thead>
-                  <tr>
-                    <th>Active</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Added Date</th>
-                    <th>Role</th>
-                    <th>Edit/Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {employees.map((emp) => (
-                    <tr key={emp.employee_id}>
-                      <td>{emp.active_employee ? "Yes" : "No"}</td>
-                      <td>{emp.employee_first_name}</td>
-                      <td>{emp.employee_last_name}</td>
-                      <td>{emp.employee_email}</td>
-                      <td>{emp.employee_phone}</td>
-                      <td>
-                        {format(new Date(emp.added_date), "MM-dd-yyyy | HH:mm")}
-                      </td>
-                      <td>{emp.company_role_name}</td>
-                      <td>
-                        <div className="d-flex gap-2">
-                          <Button
-                            size="sm"
-                            onClick={() => handleShow(emp)}
-                            style={{
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                          >
-                            <FaRegEdit size={20} color="black" />
-                          </Button>
-                          <Link to={`/admin/employee/${emp.employee_id}`}>
-                            <DeleteIcon />
-                          </Link>
-                        </div>
-                      </td>
+        !selectedEmployee && (
+          <>
+            <section className="contact-section">
+              <div className="auto-container">
+                <div className="contact-title mb-4">
+                  <h2>Employees</h2>
+                </div>
+                <Table striped bordered hover responsive>
+                  <thead>
+                    <tr>
+                      <th>Active</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Added Date</th>
+                      <th>Role</th>
+                      <th>Edit/Delete</th>
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </div>
-          </section>
+                  </thead>
+                  <tbody>
+                    {employees.map((emp) => (
+                      <tr key={emp.employee_id}>
+                        <td>{emp.active_employee ? "Yes" : "No"}</td>
+                        <td>{emp.employee_first_name}</td>
+                        <td>{emp.employee_last_name}</td>
+                        <td>{emp.employee_email}</td>
+                        <td>{emp.employee_phone}</td>
+                        <td>
+                          {format(
+                            new Date(emp.added_date),
+                            "MM-dd-yyyy | HH:mm"
+                          )}
+                        </td>
+                        <td>{emp.company_role_name}</td>
+                        <td>
+                          <div className="d-flex gap-2">
+                            <Button
+                              size="sm"
+                              onClick={() => handleShow(emp)}
+                              style={{
+                                backgroundColor: "transparent",
+                                border: "none",
+                              }}
+                            >
+                              <FaRegEdit size={20} color="black" />
+                            </Button>
+                            <Link to={`/admin/employee/${emp.employee_id}`}>
+                              <DeleteIcon />
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </section>
 
-          {/* Edit Employee Modal */}
-          {/* pass also token */}
-          {selectedEmployee && (
-            <EmployeeUpdate
-              show={show}
-              loggedInEmployeeToken={token}
-              handleClose={handleClose}
-              selectedEmployee={selectedEmployee}
-            />
-          )}
-        </>
+            {/* Edit Employee Modal */}
+            {/* pass also token */}
+          </>
+        )
+      )}
+      {selectedEmployee && (
+        <EmployeeUpdate
+          show={show}
+          loggedInEmployeeToken={token}
+          handleClose={handleClose}
+          selectedEmployee={selectedEmployee}
+        />
       )}
     </>
   );

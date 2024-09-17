@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa"; // Edit icon
-import { useParams } from "react-router-dom";
 import customerService from "../../../../../services/customer.service";
 import { useAuth } from "../../../../../Context/AuthContext";
 
@@ -9,7 +8,7 @@ const GetCustomerById = () => {
   const { id } = useParams(); // Get customer ID from the URL
   const { employee } = useAuth();
   const token = employee ? employee.employee_token : null;
-
+  const [show, setShow] = useState(true);
   const [customer, setCustomer] = useState(null);
   const [error, setError] = useState(null); // State to handle errors
 
@@ -26,15 +25,18 @@ const GetCustomerById = () => {
     if (token && id) {
       fetchCustomer();
     }
-  }, [token, id]); // Add 'id' as a dependency
+  }, [token, id]);
 
-  // Return if customer is not fetched or there's an error
   if (error) {
     return <div>Error: {error}</div>;
   }
 
   if (!customer) {
     return <div>Loading...</div>;
+  }
+
+  if (!show) {
+    return null; // Hide component when 'show' is false
   }
 
   return (
@@ -54,14 +56,14 @@ const GetCustomerById = () => {
             <strong>Active Customer:</strong>{" "}
             {customer.active_customer_status ? "Yes" : "No"}
           </p>
-          <Link to={`/admin/customer/${id}/edit`} style={styles.editLink}>
+          <Link to={`/admin/customer/${id}`} style={styles.editLink}>
             Edit customer info <FaRegEdit color="red" />
           </Link>
         </div>
-
-        {/* Delete Button */}
         <div style={styles.deleteButton}>
-          <button style={styles.deleteIcon}>X</button>
+          <button onClick={() => setShow(!show)} style={styles.deleteIcon}>
+            X
+          </button>
         </div>
       </div>
     </div>

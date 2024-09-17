@@ -8,7 +8,7 @@ const GetVehicleById = () => {
   const { vehicleId } = useParams();
   const { employee } = useAuth();
   const token = employee ? employee.employee_token : null;
-
+  const [show, setShow] = useState(true);
   const [vehicle, setVehicle] = useState(null); // Expect a single vehicle object
   const [error, setError] = useState(null); // State for errors
 
@@ -39,7 +39,9 @@ const GetVehicleById = () => {
   if (!vehicle) {
     return <div style={styles.noVehicles}>Loading vehicle data...</div>;
   }
-
+ if (!show) {
+   return null; // Hide component when 'show' is false
+ }
   return (
       <div style={styles.container}>
         <div style={styles.card} >
@@ -61,14 +63,14 @@ const GetVehicleById = () => {
               <strong>Vehicle Serial:</strong> {vehicle.vehicle_serial}
             </p>
             <Link
-              to={`/admin/customer/${vehicleId}/vehicle/${vehicle.vehicle_id}/edit`}
+              to={`/admin/customer/${vehicleId}/vehicle/${vehicle.vehicle_id}/`}
               style={styles.editLink}
             >
               Edit Vehicle info <FaRegEdit color="red" />
             </Link>
           </div>
           <div style={styles.deleteButton}>
-            <button style={styles.deleteIcon}>X</button>
+            <button onClick={() => setShow(!show)} style={styles.deleteIcon}>X</button>
           </div>
         </div>
     </div>
