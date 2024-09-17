@@ -15,8 +15,7 @@ const ChooseService = () => {
             <AdminMenu />
           </div>
           <div className="col-md-9 admin-right-side">
-            <GetCustomerById />
-            <GetAllVehicles />
+            
             <SelectService />
           </div>
         </div>

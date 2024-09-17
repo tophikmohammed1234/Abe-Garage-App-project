@@ -7,22 +7,13 @@ import { FaHandPointer } from "react-icons/fa";
 const GetVehiclesByCustomerId = () => {
   const { id: customer_id } = useParams(); // Get customer ID from route params
   const { employee } = useAuth(); // Get employee data from AuthContext
-  const [token, setToken] = useState(null); // Store token
-  const [vehicles, setVehicles] = useState(null); // Store vehicles data
-  const [error, setError] = useState(null); // Store errors
-  const [loading, setLoading] = useState(true); // Store loading state
+  const token = employee ? employee.employee_token : null; // Get token from employee
 
-  // Load the token when the component mounts
-  useEffect(() => {
-    if (employee && employee.employee_token) {
-      setToken(employee.employee_token); // Set token from employee context
-    } else {
-      setError("Token is missing.");
-      setLoading(false); // Stop loading if token is missing
-    }
-  }, [employee]);
+  const [vehicles, setVehicles] = useState(null); // Store vehicles array
+  const [error, setError] = useState(null); // Error state for displaying errors
 
   useEffect(() => {
+    // Fetch vehicles only when token and customer_id are available
     const fetchVehicles = async () => {
       if (token && customer_id) {
         try {
@@ -31,33 +22,27 @@ const GetVehiclesByCustomerId = () => {
             customer_id
           );
           if (result.error) {
-            setError(result.error); // Handle error response from API
+            setError(result.error);
           } else {
-            setVehicles(result.vehicles); // Set vehicles from API response
+            setVehicles(result.vehicles);
           }
         } catch (err) {
-          setError("Failed to fetch vehicles.");
-        } finally {
-          setLoading(false); // Stop loading after API call
+          setError(err.message);
         }
       }
     };
 
-    if (token) {
-      fetchVehicles(); // Fetch vehicles once token is available
-    }
+    fetchVehicles();
   }, [token, customer_id]);
 
-  if (loading) {
-    return <div>Loading...</div>; // Display loading indicator
-  }
-
+  // Show error if there's any
   if (error) {
-    return <div>Error: {error}</div>; // Display error message
+    return <div>Error: {error}</div>;
   }
 
-  if (!vehicles || vehicles.length === 0) {
-    return <div>No vehicles found for this customer.</div>; // Display message when no vehicles are found
+  // Show loading state while vehicles are being fetched
+  if (!vehicles) {
+    return <div>Loading...</div>;
   }
 
   return (
