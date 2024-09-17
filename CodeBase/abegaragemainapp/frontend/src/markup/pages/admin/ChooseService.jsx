@@ -2,6 +2,9 @@ import React from "react";
 import AdminMenu from "../../components/Admin/AdminMenu/AdminMenu";
 import SelectService from "../../components/Admin/Order/ChooseService";
 // import SelectService from "../../components/Admin/Order/chooseService";
+import GetAllVehicles from "../../components/Admin/Vehicle/GetVehiclesByCustomerId";
+import GetCustomerById from "../../components/Admin/customers/GetCustomerById/GetCustomerById";
+
 
 const ChooseService = () => {
   return (
@@ -12,6 +15,8 @@ const ChooseService = () => {
             <AdminMenu />
           </div>
           <div className="col-md-9 admin-right-side">
+            <GetCustomerById />
+            <GetAllVehicles />
             <SelectService />
           </div>
         </div>
