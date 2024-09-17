@@ -1,26 +1,30 @@
+import GetVehicleById from "../GetVehicleById/GetVehicleById";
+import GetCustomerById from "../customers/GetCustomerById/GetCustomerById";
 
 import React, { useState, useEffect } from "react";
 import serviceService from "../../../../services/service.service";
 import { useAuth } from "../../../../Context/AuthContext";
-
-
-import GetVehicleById from "../GetVehicleById/GetVehicleById";
-import GetCustomerById from "../customers/GetCustomerById/GetCustomerById";
-
-
+import { useParams } from "react-router-dom";
+import { createOrder } from "../../../../services/order.service";
 
 function ChooseService() {
+  const { id: customer_id, vehicleId: vehicle_id } = useParams(); // Extract customer and vehicle IDs from params
+  const { employee } = useAuth();
+  const token = employee ? employee.employee_token : null;
+  const employee_id = employee?.employee_id;
+
   const [services, setServices] = useState([]);
   const [error, setError] = useState(null);
   const [selectedServices, setSelectedServices] = useState([]);
-  const [additionalRequests, setAdditionalRequests] = useState({
-    description: "",
-    price: "",
-  });
+  const [additional_request, setAdditionalRequest] = useState(); // Store description only
+  const [order_total_price, setOrderTotalPrice] = useState(); // Store price separately
+  const [serviceIdError, setServiceIdError] = useState();
+  const [serverError, setServerError] = useState();
 
-  const { employee } = useAuth();
-  const token = employee ? employee.employee_token : null;
+  const additional_requests_completed = 0; // Defaults to 0, adjust if needed
+  const order_status = 0; // You can define order status as per your business logic
 
+  // Load services from the serviceService API
   useEffect(() => {
     const loadServices = async () => {
       try {
@@ -31,30 +35,60 @@ function ChooseService() {
         setError(err.message);
       }
     };
-    loadServices();
+    if (token) {
+      loadServices();
+    }
   }, [token]);
 
-  const handleCheckboxChange = (serviceId) => {
+  // Handle checkbox change for selecting services
+  const handleCheckboxChange = (id) => {
     setSelectedServices((prevSelected) =>
-      prevSelected.includes(serviceId)
-        ? prevSelected.filter((id) => id !== serviceId)
-        : [...prevSelected, serviceId]
+      prevSelected.includes(id)
+        ? prevSelected.filter((serviceId) => serviceId !== id) // Uncheck
+        : [...prevSelected, id] // Check
     );
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setAdditionalRequests((prevRequests) => ({
-      ...prevRequests,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform submit logic here
-    console.log("Selected Services:", selectedServices);
-    console.log("Additional Requests:", additionalRequests);
+
+    // Validate if services are selected
+    if (selectedServices.length === 0) {
+      setServiceIdError("At least one service must be selected");
+      return;
+    }
+
+    // Create the order data
+    const formData = {
+      vehicle_id,
+      customer_id,
+      employee_id,
+      additional_request, // The service description
+      order_total_price, // The price of the additional request
+      additional_requests_completed,
+      order_status, // Status of the order
+      services: selectedServices.map((serviceId) => ({
+        service_id: serviceId,
+        service_completed: 0,
+      })),
+    };
+
+    try {
+      const response = await createOrder(formData, token);
+      const data = await response.json();
+      console.log(formData);
+      if (data.error) {
+        setServerError(data.error);
+      } else {
+        setServerError("");
+        setTimeout(() => {
+          window.location.href = "/admin/employees"; // Redirect after successful order creation
+        }, 2000);
+      }
+    } catch (error) {
+      setServerError("Failed to create the order.");
+    }
   };
 
   return (
@@ -66,7 +100,8 @@ function ChooseService() {
           <form onSubmit={handleSubmit}>
             <div style={styles.serviceSelectionContainer}>
               <h2 style={styles.header}>Choose service</h2>
-              {services?.length > 0 ? (
+              {error && <div style={styles.error}>{error}</div>}
+              {services.length > 0 ? (
                 services.map((service) => (
                   <div key={service.service_id} style={styles.serviceCard}>
                     <div style={styles.serviceDetails}>
@@ -88,6 +123,9 @@ function ChooseService() {
               ) : (
                 <div>No services found</div>
               )}
+              {serviceIdError && (
+                <div style={styles.error}>{serviceIdError}</div>
+              )}
             </div>
 
             {/* Additional Requests Section */}
@@ -95,20 +133,22 @@ function ChooseService() {
               <h3 style={styles.additionalHeader}>Additional requests</h3>
               <textarea
                 name="description"
-                value={additionalRequests.description}
-                onChange={handleInputChange}
+                value={additional_request} // Handles only description
+                onChange={(e) => setAdditionalRequest(e.target.value)}
                 placeholder="Service description"
                 style={styles.textarea}
               />
               <input
                 name="price"
-                type="text"
-                value={additionalRequests.price}
-                onChange={handleInputChange}
+                type="number"
+                value={order_total_price} // Handles only price
+                onChange={(e) => setOrderTotalPrice(e.target.value)}
                 placeholder="Price"
                 style={styles.input}
               />
             </div>
+
+            {serverError && <div style={styles.error}>{serverError}</div>}
 
             <button type="submit" style={styles.submitButton}>
               SUBMIT ORDER
@@ -119,6 +159,8 @@ function ChooseService() {
     </>
   );
 }
+
+
 
 const styles = {
   pageContainer: {
