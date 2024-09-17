@@ -72,7 +72,7 @@ const GetVehiclesByCustomerId = () => {
               <td style={styles.td}>{vehicle.vehicle_mileage}</td>
               <td style={styles.td}>
                 <span role="img" aria-label="select">
-                  <Link to={`/admin/order/customer/service/${customer_id}`}>
+                  <Link to={`/admin/order/customer/service/${customer_id}/${vehicle.vehicle_id}`}>
                     <FaHandPointer style={styles.link} />
                   </Link>
                 </span>
@@ -124,5 +124,7 @@ const styles = {
     fontSize: "16px",
   },
 };
+
+
 
 export default GetVehiclesByCustomerId;

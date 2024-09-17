@@ -39,6 +39,33 @@ const getServiceById = async (token, id) => {
   }
 };
 
+// A function to send a PUT request to update an existing service
+const updateService = async (service_id, formData, loggedInEmployeeToken) => {
+  const requestOptions = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": loggedInEmployeeToken,
+    },
+    body: JSON.stringify(formData), // Only formData, serviceId is in URL
+  };
+
+  console.log(formData);
+
+  const response = await fetch(
+    `${api_url}/api/services/${service_id}`,
+    requestOptions
+  );
+
+  // Handle error if response is not OK
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`Error ${response.status}: ${errorBody}`);
+  }
+
+  return await response.json(); // Parse and return the successful response
+};
+
 const DeleteService = async (token, id) => {
   const requestOptions = {
     method: "DELETE",
@@ -71,9 +98,10 @@ const getService = async (token) => {
 
 // Export the addService function
 const serviceService = {
-  addService,
-  getServiceById,
-  DeleteService,
+	addService,
+	getServiceById,
+	updateService,
+	DeleteService,
   getService,
 };
 export default serviceService;

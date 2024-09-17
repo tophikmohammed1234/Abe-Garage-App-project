@@ -80,6 +80,66 @@ async function getServiceById(req, res, next) {
 	}
 }
 
+// Controller to update an existing service by service_id
+async function updateService(req, res, next) {
+  const { service_id } = req.params;
+  const { service_name, service_description } = req.body;
+
+  try {
+    // Check for missing fields or invalid data
+    if (!service_name || !service_description) {
+      return res.status(400).json({
+        error: "Bad Request",
+        message: "Please provide all required fields.",
+      });
+    }
+
+    // Call the service to update the service
+    const updatedService = await serviceService.updateService(
+      service_id,
+      service_name,
+      service_description
+    );
+
+    // Check if the service was found and updated
+    if (!updatedService) {
+      return res.status(404).json({
+        error: "Not Found",
+        message: `Service with ID ${service_id} not found.`,
+      });
+    }
+
+    // Successful response
+    res.status(200).json({
+      message: "Service updated successfully",
+      success: true,
+    });
+  } catch (error) {
+    console.error("Error updating service:", error);
+
+    // Known error handling for authorization issues
+    if (error.status === 403) {
+      return res.status(403).json({
+        message: "You are not authorized to update this service.",
+      });
+    }
+
+    // Handling JWT-related authorization errors
+    if (error.status === 401) {
+      return res.status(401).json({
+        message: "Invalid or missing JWT token.",
+      });
+    }
+
+    // Return an unexpected error
+    return res.status(500).json({
+      error: "Internal Server Error",
+      message: "An unexpected error occurred.",
+    });
+  }
+}
+
+
 async function deleteService(req, res, next) {
 	try {
 		const serviceId = req.params.id;
@@ -104,5 +164,6 @@ module.exports = {
 	addService,
 	getAllServices,
 	getServiceById,
+	updateService,
 	deleteService,
 };
