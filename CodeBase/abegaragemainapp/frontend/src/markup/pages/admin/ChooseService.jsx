@@ -1,6 +1,7 @@
 import React from "react";
 import AdminMenu from "../../components/Admin/AdminMenu/AdminMenu";
-import SelectService from "../../components/Admin/Order/chooseService";
+import SelectService from "../../components/Admin/Order/ChooseService";
+// import SelectService from "../../components/Admin/Order/chooseService";
 
 const ChooseService = () => {
   return (
