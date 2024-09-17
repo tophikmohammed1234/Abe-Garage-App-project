@@ -46,6 +46,7 @@ import AddNewOrder from "./markup/pages/admin/AddNewOrder";
 import GetVehiclesByCustomerId from "./markup/pages/admin/GetVehiclesByCustomerId";
 import ChooseService from "./markup/pages/admin/ChooseService";
 // import AddServiceForm from "./markup/components/Admin/AddServiceForm/AddServiceForm";
+import ServiceUpdatePage from "./markup/pages/admin/ServiceUpdatePage";
 
 function App() {
 	return (
@@ -141,6 +142,18 @@ function App() {
             </PrivateAuthRoute>
           }
         />
+
+
+        {/* Add the route for ServiceUpdatePage */}
+        <Route
+          path="/admin/services/update/:serviceId"
+          element={
+            <PrivateAuthRoute roles={[2, 3]}>
+              <ServiceUpdatePage />
+            </PrivateAuthRoute>
+          }
+        />
+
         <Route
           path="/admin/order"
           element={
