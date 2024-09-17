@@ -5,42 +5,59 @@ import vehicleService from "../../../../services/vehicle.service";
 import { FaHandPointer } from "react-icons/fa";
 
 const GetVehiclesByCustomerId = () => {
-  const id = useParams(); // Get vehicle ID from route params
-  const customer_id = id.id;
-  // console.log(customer_id.id);
+  const { id: customer_id } = useParams(); // Get customer ID from route params
   const { employee } = useAuth(); // Get employee data from AuthContext
-  const token = employee ? employee?.employee_token : null; // Get token
-  const [vehicle, setVehicle] = useState(null);
-  const [error, setError] = useState(null);
+  const [token, setToken] = useState(null); // Store token
+  const [vehicles, setVehicles] = useState(null); // Store vehicles data
+  const [error, setError] = useState(null); // Store errors
+  const [loading, setLoading] = useState(true); // Store loading state
+
+  // Load the token when the component mounts
+  useEffect(() => {
+    if (employee && employee.employee_token) {
+      setToken(employee.employee_token); // Set token from employee context
+    } else {
+      setError("Token is missing.");
+      setLoading(false); // Stop loading if token is missing
+    }
+  }, [employee]);
 
   useEffect(() => {
-    const fetchVehicle = async () => {
+    const fetchVehicles = async () => {
       if (token && customer_id) {
-        const result = await vehicleService.GetAllVehiclesPerCustomer(
-          token,
-          customer_id
-        );
-        // console.log(result);
-        if (result.error) {
-          setError(result.error);
-        } else {
-          setVehicle(result.vehicles);
-          console.log(result.vehicles[0]);
+        try {
+          const result = await vehicleService.GetAllVehiclesPerCustomer(
+            token,
+            customer_id
+          );
+          if (result.error) {
+            setError(result.error); // Handle error response from API
+          } else {
+            setVehicles(result.vehicles); // Set vehicles from API response
+          }
+        } catch (err) {
+          setError("Failed to fetch vehicles.");
+        } finally {
+          setLoading(false); // Stop loading after API call
         }
-      } else {
-        setError("Token or Vehicle ID missing.");
       }
     };
 
-    fetchVehicle();
-  }, [token]);
+    if (token) {
+      fetchVehicles(); // Fetch vehicles once token is available
+    }
+  }, [token, customer_id]);
 
-  if (error) {
-    return <div>Error: {error}</div>;
+  if (loading) {
+    return <div>Loading...</div>; // Display loading indicator
   }
 
-  if (!vehicle) {
-    return <div>Loading...</div>;
+  if (error) {
+    return <div>Error: {error}</div>; // Display error message
+  }
+
+  if (!vehicles || vehicles.length === 0) {
+    return <div>No vehicles found for this customer.</div>; // Display message when no vehicles are found
   }
 
   return (
@@ -60,9 +77,8 @@ const GetVehiclesByCustomerId = () => {
           </tr>
         </thead>
         <tbody>
-          {/* map through vehicles */}
-          {vehicle.map((vehicle) => (
-            <tr>
+          {vehicles.map((vehicle) => (
+            <tr key={vehicle.vehicle_id}>
               <td style={styles.td}>{vehicle.vehicle_year}</td>
               <td style={styles.td}>{vehicle.vehicle_make}</td>
               <td style={styles.td}>{vehicle.vehicle_model}</td>
@@ -71,11 +87,11 @@ const GetVehiclesByCustomerId = () => {
               <td style={styles.td}>{vehicle.vehicle_color}</td>
               <td style={styles.td}>{vehicle.vehicle_mileage}</td>
               <td style={styles.td}>
-                <span role="img" aria-label="select">
-                  <Link to={`/admin/order/customer/service/${customer_id}/${vehicle.vehicle_id}`}>
-                    <FaHandPointer style={styles.link} />
-                  </Link>
-                </span>
+                <Link
+                  to={`/admin/order/customer/service/${customer_id}/${vehicle.vehicle_id}`}
+                >
+                  <FaHandPointer style={styles.link} />
+                </Link>
               </td>
             </tr>
           ))}
@@ -117,14 +133,6 @@ const styles = {
     borderBottom: "1px solid #ddd",
     textAlign: "left",
   },
-  button: {
-    backgroundColor: "transparent",
-    border: "none",
-    cursor: "pointer",
-    fontSize: "16px",
-  },
 };
-
-
 
 export default GetVehiclesByCustomerId;
