@@ -9,5 +9,7 @@ router.get(
   "/api/vehicles/:customer_id",
   vehicleController.getAllVehiclesPerCustomer
 );
+// route for deleting a vehicle
+router.delete("/api/vehicle/:id", vehicleController.deleteVehicle);
 
 module.exports = router;

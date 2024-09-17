@@ -63,4 +63,32 @@ WHERE customer_id = ?;`;
   return rows || null;
 }
 
-module.exports = { addVehicle, getVehicleById, getAllVehiclesByCustomerId };
+// delete vehicle by id
+async function deleteVehicle(vehicle_id) {
+  const deleteVehicleQuery = `
+    DELETE FROM customer_vehicle_info
+    WHERE vehicle_id = ?
+  `;
+
+  const connection = await db.pool.getConnection();
+  try {
+    await connection.beginTransaction();
+
+    const result = await connection.query(deleteVehicleQuery, [vehicle_id]);
+
+    await connection.commit();
+    return result;
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    await connection.release();
+  }
+}
+
+module.exports = {
+  addVehicle,
+  getVehicleById,
+  getAllVehiclesByCustomerId,
+  deleteVehicle,
+};
