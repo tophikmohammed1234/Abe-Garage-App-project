@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { FaRegEdit } from "react-icons/fa"; // For the edit icon
+import { FaRegEdit, FaTrash } from "react-icons/fa"; // Added FaTrash for delete icon
 import { useAuth } from "../../../../Context/AuthContext";
 import vehicleService from "../../../../services/vehicle.service";
 
@@ -8,49 +8,55 @@ const GetAllVehiclesPerCustomer = ({ styles }) => {
   const { customerId } = useParams();
   const { employee } = useAuth();
   const token = employee ? employee.employee_token : null;
-  const [vehicles, setVehicles] = useState([]); // Expect an array of vehicles
-  const [error, setError] = useState(null); // State for errors
+  const [vehicles, setVehicles] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchAllCustomerVehicles = async () => {
-      try {
-        // Fetch all vehicles for the customer
-        const response = await vehicleService.GetAllVehiclesPerCustomer(
-          token,
-          customerId
-        );
-     
+    fetchAllCustomerVehicles();
+  }, [token, customerId]);
 
-        if (response && Array.isArray(response.vehicles)) {
-          setVehicles(response.vehicles); // Set the vehicles array
+  const fetchAllCustomerVehicles = async () => {
+    try {
+      const response = await vehicleService.GetAllVehiclesPerCustomer(token, customerId);
+      if (response && Array.isArray(response.vehicles)) {
+        setVehicles(response.vehicles);
+      } else {
+        setError("Unexpected response format from the server.");
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleDeleteVehicle = async (vehicleId) => {
+    if (window.confirm("Are you sure you want to delete this vehicle?")) {
+      try {
+        const response = await vehicleService.deleteVehicle(token, vehicleId);
+        if (response.ok) {
+          // Refresh the vehicle list after successful deletion
+          fetchAllCustomerVehicles();
         } else {
-          setError("Unexpected response format from the server.");
+          setError("Failed to delete the vehicle. Please try again.");
         }
       } catch (err) {
-        setError(err.message); // Set the error state
+        setError(err.message);
       }
-    };
-
-    if (token && customerId) {
-      fetchAllCustomerVehicles(); // Call the fetch function
     }
-  }, [token, customerId]);
+  };
 
   if (error) {
     return <div style={styles.noVehicles}>Error: {error}</div>;
   }
 
   if (vehicles.length === 0) {
-    return (
-      <div style={styles.noVehicles}>No vehicles found for this customer.</div>
-    );
+    return <div style={styles.noVehicles}>No vehicles found for this customer.</div>;
   }
 
   return (
     <div className="d-flex">
       <ul>
         {vehicles.map((vehicle) => (
-          <li key={vehicle.vehicle_id} className="vehicle-item ">
+          <li key={vehicle.vehicle_id} className="vehicle-item">
             <div style={styles.section}>
               <h2 style={styles.customerName}>{vehicle.vehicle_model}</h2>
               <p style={styles.customerInfo}>
@@ -68,12 +74,21 @@ const GetAllVehiclesPerCustomer = ({ styles }) => {
               <p style={styles.customerInfo}>
                 <strong>Vehicle Serial:</strong> {vehicle.vehicle_serial}
               </p>
-              <Link
-                to={`/admin/customer/${customerId}/vehicle/${vehicle.vehicle_id}/edit`}
-                style={styles.editButton}
-              >
-                Edit Vehicle info <FaRegEdit color="red" />
-              </Link>
+              <div style={styles.buttonContainer}>
+                <Link
+                  to={`/admin/customer/${customerId}/vehicle/${vehicle.vehicle_id}/edit`}
+                  style={styles.editButton}
+                >
+                  Edit Vehicle info <FaRegEdit color="red" />
+                </Link>
+                  <Link
+                to={`/admin/customer/${customerId}/vehicle/${vehicle.vehicle_id}/delete`}
+                style={{...styles.editButton, display: 'block'}}
+                  >
+                Delete Vehicle d<FaTrash color="red"  />
+                </Link>
+
+              </div>
             </div>
           </li>
         ))}

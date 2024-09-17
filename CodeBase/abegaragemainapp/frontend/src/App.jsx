@@ -42,14 +42,15 @@ import CustomerUpdatePage from "./markup/pages/admin/CustomerUpdatePage";
 import CustomerProfile from "./markup/pages/admin/CustomerProfile";
 import DeleteService from "./markup/components/Admin/Delete/DeleteService";
 import AddNewOrder from "./markup/pages/admin/AddNewOrder";
-// import VehicleList from "./markup/components/Admin/Order/SelectCustomerVehicle";
 import GetVehiclesByCustomerId from "./markup/pages/admin/GetVehiclesByCustomerId";
 import ChooseService from "./markup/pages/admin/ChooseService";
-// import AddServiceForm from "./markup/components/Admin/AddServiceForm/AddServiceForm";
 import ServiceUpdatePage from "./markup/pages/admin/ServiceUpdatePage";
 
+// Import the new DeleteVehicle component
+import DeleteVehicle from "./markup/components/Admin/Delete/DeleteVehicle";
+
 function App() {
-	return (
+  return (
     <>
       <Header />
       <Routes>
@@ -143,7 +144,6 @@ function App() {
           }
         />
 
-
         {/* Add the route for ServiceUpdatePage */}
         <Route
           path="/admin/services/update/:serviceId"
@@ -178,14 +178,16 @@ function App() {
             </PrivateAuthRoute>
           }
         />
-        {/* 
-        Customers (/admin/customers) - managers and admins
-        Orders (/admin/orders) - Can be accessed by all employees
-        Add employee (/admin/add-employee) - admins only 
-            - Admin: 3 
-            - Manager: 2 
-            - Employee: 1 
-        */}
+        
+        {/* Add the new route for deleting a vehicle */}
+        <Route
+          path="/admin/customer/:customerId/vehicle/:id/delete"
+          element={
+            <PrivateAuthRoute roles={[2, 3]}>
+              <DeleteVehicle />
+            </PrivateAuthRoute>
+          }
+        />
       </Routes>
       <Footer />
     </>
