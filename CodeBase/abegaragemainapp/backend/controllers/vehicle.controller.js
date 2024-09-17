@@ -99,6 +99,39 @@ async function getAllVehiclesPerCustomer(req, res) {
     });
   }
 }
+// delete vehicle
+async function deleteVehicle(req, res) {
+  try {
+    const vehicle_id = req.params.id;
+
+    if (!vehicle_id) {
+      return res.status(400).json({
+        error: "Bad Request",
+        message: "Vehicle ID is required",
+      });
+    }
+
+    const result = await vehicleService.deleteVehicle(vehicle_id);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        error: "Not Found",
+        message: "Vehicle with the specified ID not found.",
+      });
+    }
+
+    res.status(200).json({
+      message: "Vehicle deleted successfully",
+      success: true,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "An unexpected error occurred.",
+    });
+  }
+}
 
 //getVehicleById
-module.exports = { addVehicle, getVehicleById, getAllVehiclesPerCustomer };
+module.exports = { addVehicle, getVehicleById, getAllVehiclesPerCustomer,deleteVehicle };
