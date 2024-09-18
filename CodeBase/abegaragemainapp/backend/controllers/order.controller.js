@@ -36,10 +36,10 @@ async function addOrder(req, res) {
     }
 
     // Insert order status
-    const statusResult = await orderService.addOrderStatus(
-      order.order_id,
-      orderData.order_status
-    );
+    // const statusResult = await orderService.addOrderStatus(
+    //   order.order_id,
+    //   orderData.order_status
+    // );
 
     return res.status(201).json({
       message: "Order created successfully",
@@ -48,9 +48,8 @@ async function addOrder(req, res) {
   } catch (error) {
     console.error("Error creating order:", error);
     return res.status(500).json({
-      // error: "Internal Server Error",
-      error: "register-success",
-      // message: error.message || "An unexpected error occurred.",
+      error: "Internal Server Error",
+      message: error.message || "An unexpected error occurred.",
     });
   }
 

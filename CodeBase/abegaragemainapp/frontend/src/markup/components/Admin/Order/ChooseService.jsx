@@ -1,6 +1,6 @@
 import GetVehicleById from "../GetVehicleById/GetVehicleById";
 import GetCustomerById from "../customers/GetCustomerById/GetCustomerById";
-
+import BarLoader from "react-spinners/BarLoader";
 import React, { useState, useEffect } from "react";
 import serviceService from "../../../../services/service.service";
 import { useAuth } from "../../../../Context/AuthContext";
@@ -12,14 +12,15 @@ function ChooseService() {
   const { employee } = useAuth();
   const token = employee ? employee.employee_token : null;
   const employee_id = employee?.employee_id;
-
+  const [isLoading, setIsLoading] = useState(false);
   const [services, setServices] = useState([]);
   const [error, setError] = useState(null);
   const [selectedServices, setSelectedServices] = useState([]);
-  const [additional_request, setAdditionalRequest] = useState(); // Store description only
-  const [order_total_price, setOrderTotalPrice] = useState(); // Store price separately
+  const [additional_request, setAdditionalRequest] = useState(null); // Store description only
+  const [order_total_price, setOrderTotalPrice] = useState(null); // Store price separately
   const [serviceIdError, setServiceIdError] = useState();
   const [serverError, setServerError] = useState();
+  const [confirmationMessage, setConfirmationMessage] = useState("false"); // For confirmation message
 
   const additional_requests_completed = 0; // Defaults to 0, adjust if needed
   const order_status = 0; // You can define order status as per your business logic
@@ -42,16 +43,18 @@ function ChooseService() {
 
   // Handle checkbox change for selecting services
   const handleCheckboxChange = (id) => {
-    setSelectedServices((prevSelected) =>
-      prevSelected.includes(id)
-        ? prevSelected.filter((serviceId) => serviceId !== id) // Uncheck
-        : [...prevSelected, id] // Check
+    setSelectedServices(
+      (prevSelected) =>
+        prevSelected.includes(id)
+          ? prevSelected.filter((serviceId) => serviceId !== id) // Uncheck
+          : [...prevSelected, id] // Check
     );
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     // Validate if services are selected
     if (selectedServices.length === 0) {
@@ -77,13 +80,14 @@ function ChooseService() {
     try {
       const response = await createOrder(formData, token);
       const data = await response.json();
-      console.log(formData);
       if (data.error) {
         setServerError(data.error);
       } else {
+        setConfirmationMessage("true"); // Set confirmation message
         setServerError("");
         setTimeout(() => {
-          window.location.href = "/admin/employees"; // Redirect after successful order creation
+          setIsLoading(false);
+          window.location.href = "/admin/orders"; // Redirect after successful order creation
         }, 2000);
       }
     } catch (error) {
@@ -127,7 +131,6 @@ function ChooseService() {
                 <div style={styles.error}>{serviceIdError}</div>
               )}
             </div>
-
             {/* Additional Requests Section */}
             <div style={styles.additionalRequestsContainer}>
               <h3 style={styles.additionalHeader}>Additional requests</h3>
@@ -147,11 +150,21 @@ function ChooseService() {
                 style={styles.input}
               />
             </div>
-
-            {serverError && <div style={styles.error}>{serverError}</div>}
-
-            <button type="submit" style={styles.submitButton}>
-              SUBMIT ORDER
+           
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={
+                styles.submitButton
+              }
+            >
+              {isLoading ? (
+                <BarLoader color="#f9c305" height={5} width={160} />
+              ) : confirmationMessage ? (
+                "Update Successful"
+              ) : (
+                "SUBMIT ORDER"
+              )}
             </button>
           </form>
         </div>
@@ -163,6 +176,10 @@ function ChooseService() {
 
 
 const styles = {
+  success: {
+    color: "green",
+    marginTop: "10px",
+  },
   pageContainer: {
     // maxWidth: "900px",
     margin: "0 auto",
@@ -232,17 +249,21 @@ const styles = {
     fontSize: "14px",
   },
   submitButton: {
+    width: "200px",
+    height: "70px",
+    fontSize: "20px",
+    fontWeight: "bold",
     padding: "10px 20px",
-    backgroundColor: "#ff3333",
     color: "#fff",
-    fontSize: "16px",
-    borderRadius: "5px",
     cursor: "pointer",
     border: "none",
     display: "block",
     margin: "0 auto",
-    width: "200px",
+    height: "50px",
+    marginBottom: "20px",
+    transition: "background-color 0.3s ease", // Smooth transition for hover effect
   },
+  
 };
 
 export default ChooseService;
