@@ -55,5 +55,21 @@ async function addOrder(req, res) {
 
 }
 
+async function getAllOrders(req, res, next) {
 
-module.exports = { addOrder };
+  const orders = await orderService.getAllOrders();
+  if (!orders) {
+    res.status(400).json({
+      error: "Failed to get all orders!",
+    });
+  } else {
+    res.status(200).json({
+      status: "success",
+      data: orders,
+    });
+  }
+}
+
+
+
+module.exports = { addOrder, getAllOrders };
