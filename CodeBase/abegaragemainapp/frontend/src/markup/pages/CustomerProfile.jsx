@@ -5,6 +5,7 @@ import customerService from "../../services/customer.service";
 import { useAuth } from "../../Context/AuthContext";
 import { FaRegEdit } from "react-icons/fa";
 import GetAllVehiclesPerCustomer from "../components/Admin/GetAllVehiclesPerCustomer/GetAllVehiclesPerCustomer";
+import GetOrdersByCustomerId from "../components/Admin/Order/GetOrdersByCustomerId";
 
 const CustomerPage = () => {
   const { customerId } = useParams(); // Get customer id from URL
@@ -23,6 +24,7 @@ const CustomerPage = () => {
         const customerData = await customerService.getCustomerById(token, id);
         // const VehicleData=await customerService(token, id);
         setCustomer(customerData.data);
+        console.log(customerData);
         // setVehicles(vehicleData.vehicles || []); // Assuming customerData contains vehicles
         // setOrders(orderData.orders || []); // Assuming customerData contains orders
       } catch (err) {
@@ -167,9 +169,13 @@ const CustomerPage = () => {
                 Orders of {customer.customer_first_name}
               </h3>
               {orders.length === 0 ? (
-                <p style={styles.ordersPlaceholder}>
-                  Orders will be displayed here
-                </p>
+                (console.log(orders),
+                (
+                  <p style={styles.ordersPlaceholder}>
+                    Orders will be displayed here
+                    <GetOrdersByCustomerId />
+                  </p>
+                ))
               ) : (
                 <ul>
                   {orders.map((order, index) => (

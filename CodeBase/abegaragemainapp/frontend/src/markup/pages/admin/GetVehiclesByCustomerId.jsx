@@ -13,9 +13,7 @@ const GetVehiclesByCustomerId = () => {
             <AdminMenu />
           </div>
           <div className="col-md-9 admin-right-side px-0 contact-title">
-            <h2 className="m-4 font-weight-bold">
-              Create a new order 
-            </h2>
+            <h2 className="m-4 font-weight-bold">Create a new order</h2>
             <GetCustomerById />
             <GetAllVehicles />
           </div>
