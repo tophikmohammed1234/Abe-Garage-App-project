@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../../../../Context/AuthContext";
-import orderService from "../../../../services/order.service";
+// import orderService from "../../../../services/order.service";
 import { FaHandPointer } from "react-icons/fa";
 
 const GetOrdersByCustomerId = () => {
