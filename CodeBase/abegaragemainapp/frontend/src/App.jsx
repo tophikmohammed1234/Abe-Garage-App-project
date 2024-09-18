@@ -74,7 +74,7 @@ function App() {
         <Route
           path="/admin/orders"
           element={
-            <PrivateAuthRoute roles={[1, 2, 3]}>
+            <PrivateAuthRoute roles={[2, 3]}>
               <Orders />
             </PrivateAuthRoute>
           }

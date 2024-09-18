@@ -14,5 +14,16 @@ const createOrder = async (formData, loggedInEmployeeToken) => {
   const response = await fetch(`${api_url}/api/order`, requestOptions);
   return response;
 };
-
-export { createOrder };
+const getAllOrders = async (token) => {
+  // console.log(token);
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": token,
+    },
+  };
+  const response = await fetch(`${api_url}/api/orders`, requestOptions);
+  return response;
+};
+export { createOrder,getAllOrders };
