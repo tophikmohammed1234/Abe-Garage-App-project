@@ -15,4 +15,24 @@ const createOrder = async (formData, loggedInEmployeeToken) => {
   return response;
 };
 
+// get orders by customer id
+const getOrdersByCustomerId = async (token, order_id) => {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": token,
+    },
+  };
+  const response = await fetch(
+    `${api_url}/api/order/customer/${order_id}`,
+    requestOptions
+  );
+  return response;
+};
+
 export { createOrder };
+
+export default {
+  getOrdersByCustomerId,
+};
