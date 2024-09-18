@@ -81,7 +81,72 @@ async function deleteVehicle(vehicle_id) {
     await connection.rollback();
     throw error;
   } finally {
-  await connection.release();
+    await connection.release();
   }
 }
-module.exports = { addVehicle, getVehicleById, getAllVehiclesByCustomerId,deleteVehicle };
+
+// update vehicle
+
+async function updateVehicle(vehicleId, updateData) {
+  const {
+    vehicle_model,
+    vehicle_year,
+    vehicle_make,
+    vehicle_type,
+    vehicle_mileage,
+    vehicle_tag,
+    vehicle_serial,
+    vehicle_color,
+  } = updateData;
+
+  const updateVehicleQuery = `
+    UPDATE customer_vehicle_info
+    SET
+      vehicle_model = ?,
+      vehicle_year = ?,
+      vehicle_make = ?,
+      vehicle_type = ?,
+      vehicle_mileage = ?,
+      vehicle_tag = ?,
+      vehicle_serial = ?,
+      vehicle_color = ?
+    WHERE vehicle_id = ?`;
+
+  const connection = await db.pool.getConnection();
+  try {
+    await connection.beginTransaction();
+
+    const [result] = await connection.query(updateVehicleQuery, [
+      vehicle_model,
+      vehicle_year,
+      vehicle_make,
+      vehicle_type,
+      vehicle_mileage,
+      vehicle_tag,
+      vehicle_serial,
+      vehicle_color,
+      vehicleId,
+    ]);
+
+    await connection.commit();
+
+    if (result.affectedRows === 0) {
+      return null; // No vehicle found to update
+    }
+
+    return result;
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
+}
+
+module.exports = {
+  addVehicle,
+  getVehicleById,
+  getAllVehiclesByCustomerId,
+  deleteVehicle,
+  updateVehicle,
+};

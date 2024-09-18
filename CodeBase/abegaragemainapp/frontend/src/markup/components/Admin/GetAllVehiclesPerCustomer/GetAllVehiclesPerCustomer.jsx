@@ -17,7 +17,10 @@ const GetAllVehiclesPerCustomer = ({ styles }) => {
 
   const fetchAllCustomerVehicles = async () => {
     try {
-      const response = await vehicleService.GetAllVehiclesPerCustomer(token, customerId);
+      const response = await vehicleService.GetAllVehiclesPerCustomer(
+        token,
+        customerId
+      );
       if (response && Array.isArray(response.vehicles)) {
         setVehicles(response.vehicles);
       } else {
@@ -49,7 +52,9 @@ const GetAllVehiclesPerCustomer = ({ styles }) => {
   }
 
   if (vehicles.length === 0) {
-    return <div style={styles.noVehicles}>No vehicles found for this customer.</div>;
+    return (
+      <div style={styles.noVehicles}>No vehicles found for this customer.</div>
+    );
   }
 
   return (
@@ -74,20 +79,19 @@ const GetAllVehiclesPerCustomer = ({ styles }) => {
               <p style={styles.customerInfo}>
                 <strong>Vehicle Serial:</strong> {vehicle.vehicle_serial}
               </p>
-              <div style={{...styles.buttonContainer, paddingRight: '70px'}}>
+              <div style={{ ...styles.buttonContainer, paddingRight: "70px" }}>
                 <Link
-                  to={`/admin/customer/${customerId}/vehicle/${vehicle.vehicle_id}/edit`}
+                  to={`/admin/vehicle/${vehicle.vehicle_id}`}
                   style={styles.editButton}
                 >
                   Edit Vehicle info <FaRegEdit color="red" />
                 </Link>
-                  <Link
-                to={`/admin/customer/${customerId}/vehicle/${vehicle.vehicle_id}/delete`}
-                style={{...styles.editButton, display: 'block'}}
-                  >
-                Delete Vehicle d<FaTrash color="red"  />
+                <Link
+                  to={`/admin/customer/${customerId}/vehicle/${vehicle.vehicle_id}/delete`}
+                  style={{ ...styles.editButton, display: "block" }}
+                >
+                  Delete Vehicle d<FaTrash color="red" />
                 </Link>
-
               </div>
             </div>
           </li>

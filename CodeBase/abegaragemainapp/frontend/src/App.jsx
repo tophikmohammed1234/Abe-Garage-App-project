@@ -48,6 +48,7 @@ import ServiceUpdatePage from "./markup/pages/admin/ServiceUpdatePage";
 
 // Import the new DeleteVehicle component
 import DeleteVehicle from "./markup/components/Admin/Delete/DeleteVehicle";
+import VehicleUpdatePage from "./markup/pages/VehicleUpdatePage";
 
 function App() {
   return (
@@ -119,6 +120,17 @@ function App() {
             </PrivateAuthRoute>
           }
         />
+
+        {/* add the vehicle update page */}
+        <Route
+          path="/admin/vehicle/:vehicleId"
+          element={
+            <PrivateAuthRoute roles={[3]}>
+              <VehicleUpdatePage />
+            </PrivateAuthRoute>
+          }
+        />
+
         <Route
           path="/admin/customer/profile/:customerId"
           element={
@@ -178,7 +190,7 @@ function App() {
             </PrivateAuthRoute>
           }
         />
-        
+
         {/* Add the new route for deleting a vehicle */}
         <Route
           path="/admin/customer/:customerId/vehicle/:id/delete"
