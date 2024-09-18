@@ -113,6 +113,7 @@ const styles = {
     borderRadius: "50%",
     cursor: "pointer",
     fontSize: "16px",
+    
   },
   editLink: {
     fontSize: "16px",
@@ -123,6 +124,7 @@ const styles = {
     display: "inline-flex",
     alignItems: "center",
   },
+  
 };
 
 export default GetCustomerById;
