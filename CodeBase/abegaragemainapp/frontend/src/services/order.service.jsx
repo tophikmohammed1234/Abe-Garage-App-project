@@ -29,5 +29,5 @@ const getAllOrders = async (token) => {
   const response = await fetch(`${api_url}/api/orders`, requestOptions);
   return response;
 };
-export { createOrder,getAllOrders };
 
+export { createOrder, getAllOrders };
