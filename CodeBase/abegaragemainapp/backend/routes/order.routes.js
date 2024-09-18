@@ -20,4 +20,9 @@ router.get(
   orderController.getAllOrders
 );
 
+router.get(
+  "/api/order/:order_id",
+  [authMiddleware.verifyToken],
+  orderController.getOrderByID
+);
 module.exports = router;

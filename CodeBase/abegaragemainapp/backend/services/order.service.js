@@ -105,7 +105,44 @@ async function getAllOrders() {
   const rows = await conn.query(query);
   return rows;
 }
+
+async function getOrderById(order_id) {
+  const query = `
+    SELECT 
+      orders.order_id,
+      orders.employee_id,
+      orders.customer_id,
+      orders.vehicle_id,
+      orders.order_date,
+      order_info.estimated_completion_date,
+      order_info.completion_date,
+      order_info.additional_requests_completed AS order_completed,
+      GROUP_CONCAT(
+        JSON_OBJECT(
+          'order_service_id', order_services.order_service_id,
+          'service_id', order_services.service_id,
+          'service_completed', order_services.service_completed
+        )
+        SEPARATOR ','
+      ) AS order_services
+    FROM orders
+    INNER JOIN order_info ON orders.order_id = order_info.order_id
+    INNER JOIN order_status ON orders.order_id = order_status.order_id
+    INNER JOIN order_services ON orders.order_id = order_services.order_id
+    WHERE orders.order_id = ?
+    GROUP BY orders.order_id;
+  `;
+     ;
+  try {
+    const rows = await conn.query(query, [order_id]);
+    return rows;
+  } catch (error) {
+    console.error("Error executing query:", error);
+    throw error;
+  }
+}
 module.exports = {
   addNewOrder,
   getAllOrders,
+  getOrderById,
 };

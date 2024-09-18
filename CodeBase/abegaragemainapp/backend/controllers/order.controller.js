@@ -70,6 +70,33 @@ async function getAllOrders(req, res, next) {
   }
 }
 
+async function getOrderByID(req, res, next) {
+const { order_id } = req.params;
+
+// Ensure that order_id is provided
+if (!order_id) {
+  return res.status(400).json({
+    error: "Order ID is required!",
+  });
+}
+
+try {
+  const [rows] = await orderService.getOrderById(order_id); // Call the service function
+         if (rows.length === 0) {
+           return null; // No order found
+         }
+
+  const order = rows;
+   order.order_services = JSON.parse(`[${order.order_services}]`);
+  res.status(200).json({
+    status: "success",
+    data: order,
+  });
+  console.log(order);
+} catch (error) {
+  next(error); // Forward the error to the error handling middleware
+}
+  }
 
 
-module.exports = { addOrder, getAllOrders };
+module.exports = { addOrder, getAllOrders, getOrderByID };
