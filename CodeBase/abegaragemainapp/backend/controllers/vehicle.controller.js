@@ -133,5 +133,75 @@ async function deleteVehicle(req, res) {
   }
 }
 
+// update vehicle
+const updateVehicle = async (req, res) => {
+  try {
+    const vehicleId = req.params.id;
+    const {
+      vehicle_model,
+      vehicle_year,
+      vehicle_make,
+      vehicle_type,
+      vehicle_mileage,
+      vehicle_tag,
+      vehicle_serial,
+      vehicle_color,
+    } = req.body;
+
+    // Validate all required fields
+    if (
+      !vehicleId ||
+      !vehicle_model ||
+      !vehicle_year ||
+      !vehicle_make ||
+      !vehicle_type ||
+      !vehicle_mileage ||
+      !vehicle_tag ||
+      !vehicle_serial ||
+      !vehicle_color
+    ) {
+      return res.status(400).json({
+        error: "Bad Request",
+        message: "Please provide all required fields.",
+      });
+    }
+
+    const updatedVehicle = await vehicleService.updateVehicle(vehicleId, {
+      vehicle_model,
+      vehicle_year,
+      vehicle_make,
+      vehicle_type,
+      vehicle_mileage,
+      vehicle_tag,
+      vehicle_serial,
+      vehicle_color,
+    });
+
+    if (!updatedVehicle) {
+      return res.status(404).json({
+        error: "Not Found",
+        message: "Vehicle with the specified ID not found.",
+      });
+    }
+
+    res.status(200).json({
+      message: "Vehicle updated successfully",
+      success: true,
+    });
+  } catch (error) {
+    console.error("Error updating vehicle:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "An unexpected error occurred.",
+    });
+  }
+};
+
 //getVehicleById
-module.exports = { addVehicle, getVehicleById, getAllVehiclesPerCustomer,deleteVehicle };
+module.exports = {
+  addVehicle,
+  getVehicleById,
+  getAllVehiclesPerCustomer,
+  deleteVehicle,
+  updateVehicle,
+};

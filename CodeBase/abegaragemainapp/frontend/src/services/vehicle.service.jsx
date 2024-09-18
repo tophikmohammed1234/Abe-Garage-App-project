@@ -49,17 +49,38 @@ const GetVehicleById = async (token, vehicle_id) => {
   const data = await response.json(); // Make sure to parse the response
   return data; // Return parsed data
 };
+
 // Delete a vehicle
 const deleteVehicle = async (token, vehicle_id) => {
   const requestOptions = {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      "x-access-token": token, 
+      "x-access-token": token,
     },
   };
 
-  const response = await fetch(`${api_url}/api/vehicle/${vehicle_id}`, requestOptions);
+  const response = await fetch(
+    `${api_url}/api/vehicle/${vehicle_id}`,
+    requestOptions
+  );
+  return response;
+};
+
+// Update an existing vehicle
+const updateVehicle = async (vehicleId, formData, loggedInEmployeeToken) => {
+  const requestOptions = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": loggedInEmployeeToken,
+    },
+    body: JSON.stringify(formData),
+  };
+  const response = await fetch(
+    `${api_url}/api/vehicle/${vehicleId}`,
+    requestOptions
+  );
   return response;
 };
 
@@ -67,7 +88,9 @@ const vehicleService = {
   createVehicle,
   GetAllVehiclesPerCustomer,
   GetVehicleById,
- deleteVehicle,
+  deleteVehicle,
+  // getVehicleById,
+  updateVehicle,
 };
 
 export default vehicleService;

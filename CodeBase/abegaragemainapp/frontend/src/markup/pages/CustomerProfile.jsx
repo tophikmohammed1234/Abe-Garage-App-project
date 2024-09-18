@@ -34,7 +34,7 @@ const CustomerPage = () => {
       fetchCustomer();
     }
   }, [token, customerId]);
-  console.log(customer);
+
   const styles = {
     page: {
       fontFamily: "Arial, sans-serif",
@@ -77,7 +77,7 @@ const CustomerPage = () => {
       color: "#999",
       backgroundColor: "#fff",
       paddingLeft: "30px",
-      marginBottom:"15px"
+      marginBottom: "15px",
     },
     ordersPlaceholder: {
       fontSize: "16px",
