@@ -14,4 +14,10 @@ router.post(
   [authMiddleware.verifyToken],
   orderController.addOrder
 );
+router.get(
+  "/api/orders",
+  [authMiddleware.verifyToken],
+  orderController.getAllOrders
+);
+
 module.exports = router;

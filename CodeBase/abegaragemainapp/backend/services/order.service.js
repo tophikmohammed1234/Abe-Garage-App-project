@@ -93,6 +93,19 @@ async function addNewOrder(order) {
   return createdOrder;
 }
 
+async function getAllOrders() {
+ const query = `
+      SELECT * 
+      FROM orders 
+      INNER JOIN order_info ON orders.order_id = order_info.order_id 
+      INNER JOIN order_status ON orders.order_id = order_status.order_id 
+      INNER JOIN order_services ON orders.order_id = order_services.order_id
+    `;
+
+  const rows = await conn.query(query);
+  return rows;
+}
 module.exports = {
   addNewOrder,
+  getAllOrders,
 };
