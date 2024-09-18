@@ -1,6 +1,6 @@
 // Import express and create a router instance
 const orderController = require("../controllers/order.controller");
-// Import middleware
+
 
 const express = require("express");
 const router = express.Router();

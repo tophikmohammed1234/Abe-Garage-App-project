@@ -31,6 +31,8 @@ const GetAllCustomers = () => {
     navigate(`/admin/customer/${customerId}`);
   };
 
+
+  
   // Filter customers based on search query
   const filteredCustomers = customers.filter((customer) => {
     const searchTerm = searchQuery.toLowerCase();
