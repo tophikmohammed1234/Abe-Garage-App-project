@@ -47,9 +47,10 @@ import GetVehiclesByCustomerId from "./markup/pages/admin/GetVehiclesByCustomerI
 import ChooseService from "./markup/pages/admin/ChooseService";
 // import AddServiceForm from "./markup/components/Admin/AddServiceForm/AddServiceForm";
 import ServiceUpdatePage from "./markup/pages/admin/ServiceUpdatePage";
+import VehicleUpdatePage from "./markup/pages/VehicleUpdatePage";
 
 function App() {
-	return (
+  return (
     <>
       <Header />
       <Routes>
@@ -118,6 +119,16 @@ function App() {
             </PrivateAuthRoute>
           }
         />
+
+        {/* add the vehicle update page */}
+        <Route
+          path="/admin/vehicle/:vehicleId"
+          element={
+            <PrivateAuthRoute roles={[3]}>
+              <VehicleUpdatePage />
+            </PrivateAuthRoute>
+          }
+        />
         <Route
           path="/admin/customer/profile/:customerId"
           element={
@@ -142,7 +153,6 @@ function App() {
             </PrivateAuthRoute>
           }
         />
-
 
         {/* Add the route for ServiceUpdatePage */}
         <Route

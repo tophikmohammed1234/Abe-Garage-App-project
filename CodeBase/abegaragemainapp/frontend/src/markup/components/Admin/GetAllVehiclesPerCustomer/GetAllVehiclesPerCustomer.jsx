@@ -19,7 +19,6 @@ const GetAllVehiclesPerCustomer = ({ styles }) => {
           token,
           customerId
         );
-     
 
         if (response && Array.isArray(response.vehicles)) {
           setVehicles(response.vehicles); // Set the vehicles array
@@ -69,7 +68,7 @@ const GetAllVehiclesPerCustomer = ({ styles }) => {
                 <strong>Vehicle Serial:</strong> {vehicle.vehicle_serial}
               </p>
               <Link
-                to={`/admin/customer/${customerId}/vehicle/${vehicle.vehicle_id}/edit`}
+                to={`/admin/vehicle/${vehicle.vehicle_id}`}
                 style={styles.editButton}
               >
                 Edit Vehicle info <FaRegEdit color="red" />

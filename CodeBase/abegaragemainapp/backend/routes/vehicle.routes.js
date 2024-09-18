@@ -10,4 +10,7 @@ router.get(
   vehicleController.getAllVehiclesPerCustomer
 );
 
+// Update a vehicle
+router.put("/api/vehicle/:id", vehicleController.updateVehicle);
+
 module.exports = router;
