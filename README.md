@@ -26,14 +26,14 @@ Abe Garage App is a comprehensive management system designed to streamline opera
                └── src │ 
                         ├── components │
                         ├── pages │
-                        └── services |
+                        |── services |
 
 . ├── backend │ 
             ├── controllers │
             ├── routes │ 
-            └── services |
+            |── services |
             ├── db |
-            └── README.md
+            |── README.md
 
 
 ## Setup
