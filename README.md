@@ -82,9 +82,9 @@ npm start
 
 4. **Set up a MySQL database:**
    
--**Set up a MySQL database.**
--**Update the database configuration in db.config.js.**
--**Run any necessary migrations or manually create the required tables for customers, employees, vehicles, services, etc.**
+- Set up a MySQL database.
+- Update the database configuration in db.config.js.
+- Run any necessary migrations or manually create the required tables for customers, employees, vehicles, services, etc.
 
 ## Usage
 
