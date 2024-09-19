@@ -94,8 +94,8 @@ Once both the backend and frontend servers are running, open your browser and na
 http://localhost:5173
 ```
 
--**Log in with your credentials to access the admin dashboard.**
--**Use the features like managing customers, vehicles, services, and employees through the user-friendly dashboard.**
+- Log in with your credentials to access the admin dashboard.
+- Use the features like managing customers, vehicles, services, and employees through the user-friendly dashboard.
 
 ## Contribution
 
